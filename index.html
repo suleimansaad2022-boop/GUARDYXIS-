@@ -37,6 +37,29 @@ main{min-width:0}.topbar{height:46px;border-bottom:1px solid #0c2d40;display:fle
 .toast{position:fixed;right:15px;bottom:15px;background:#061c2b;border:1px solid #1a6671;color:#eaf7fb;border-radius:8px;padding:10px 12px;font-size:9px;z-index:100;box-shadow:var(--shadow);transform:translateY(80px);opacity:0;transition:.25s}.toast.show{transform:translateY(0);opacity:1}
 @media(max-width:950px){:root{--sidebar:150px}.grid-stats{grid-template-columns:repeat(2,1fr)}.trend-row{grid-template-columns:repeat(3,1fr)}.two,.holder-layout,.scan-layout,.auth-wrap{grid-template-columns:1fr}.risk-panel{display:none}.footer-strip{grid-template-columns:repeat(3,1fr)}}
 @media(max-width:650px){.app{display:block}.sidebar{display:none}.topbar{height:48px;padding:7px 9px}.content{padding:10px 8px 70px}.title{font-size:16px}.grid-stats{grid-template-columns:repeat(2,1fr)}.trend-row{grid-template-columns:repeat(2,1fr)}.metrics{grid-template-columns:repeat(2,1fr)}.footer-strip{display:none}.mobile-nav{display:flex;position:fixed;left:0;right:0;bottom:0;height:57px;background:#03111d;z-index:50;border-top:1px solid #12364b;justify-content:space-around}.mobile-nav button{border:0;background:none;color:#8298a9;font-size:7px;display:flex;flex-direction:column;gap:3px;align-items:center;justify-content:center}.mobile-nav button.active{color:#17dfcf}.mobile-nav b{font-size:13px}.chartbox{height:210px}.auth-wrap{min-height:500px}.auth-art{min-height:220px}.auth-card{padding:20px}}
+
+/* V15 interaction + mobile parity */
+.token-actions{display:flex!important;flex-wrap:wrap;align-items:center;justify-content:flex-end}
+.token-actions>*{flex:0 0 auto}
+.page-loading{font-size:8px;color:#8fa8ba;padding:12px;text-align:center}
+.data-status{font-size:7px;color:#7893a6;margin-left:6px}
+.live-dot{display:inline-block;width:6px;height:6px;border-radius:50%;background:#16e6a0;box-shadow:0 0 8px #16e6a0;margin-right:4px}
+@media(max-width:650px){
+  .top-actions{gap:5px}.status{display:inline-flex}
+  .content{padding-left:7px;padding-right:7px}
+  .token-head{align-items:flex-start;flex-wrap:wrap}
+  .token-actions{width:100%;margin-left:0!important;justify-content:flex-start;order:3;padding-top:3px}
+  .token-actions button{display:inline-flex!important;min-height:31px}
+  .metrics{grid-template-columns:repeat(2,1fr)}
+  .scan-layout{display:block}
+  .risk-panel{display:block!important;margin-top:8px}
+  .chartbox{height:260px}
+  .holder-layout{display:block}
+  .holder-layout>.panel{margin-bottom:8px}
+  .trending-table{min-width:650px}
+  #page-trending .panel{overflow:auto}
+  .footer-strip{display:none}
+}
 </style>
 </head>
 <body>
@@ -188,12 +211,115 @@ function tokenLogo(t){return t.logo||"data:image/svg+xml;charset=utf-8,"+encodeU
 function renderDashTrending(list=FALLBACK.slice(0,5)){ $("#dashTrending").innerHTML=list.map(t=>`<div class="mini-token" data-symbol="${t.symbol}"><img class="token-logo" src="${tokenLogo(t)}" onerror="this.style.display='none'"><b>${t.symbol}</b><small>Solana</small><div class="pct up">★ +${Math.abs(t.change).toFixed(1)}%</div><div class="cap">${t.cap}</div><small>Price / 24h Vol</small></div>`).join(""); $$(".mini-token").forEach(x=>x.onclick=()=>loadTokenByText(x.dataset.symbol))}
 function renderRecent(){const rows=[["$GUARD","Low","2m ago"],["$SPENGU","Medium","5m ago"],["$SMEW","Low","12m ago"],["$SWIF","High","18m ago"],["$BONK","Medium","25m ago"]];$("#recentScans").innerHTML=rows.map(r=>`<div class="recent-row"><span>${r[0]}<small style="display:block;color:#7890a5">Solana</small></span><span class="risk ${r[1].toLowerCase()==="low"?"low":r[1].toLowerCase()==="high"?"high":"med"}">${r[1]}</span><span class="tiny">${r[2]}</span></div>`).join("")}
 function renderTrending(list=FALLBACK){$("#trendingBody").innerHTML=list.map(t=>`<tr><td><b>${t.symbol}</b><div class="tiny">Solana</div></td><td>${t.price}</td><td class="up">+${Number(t.change).toFixed(2)}%</td><td>${t.volume}</td><td>${t.liq}</td><td>${t.cap}</td><td><span class="risk low">Low</span></td></tr>`).join("")}
-function renderHolders(){const vals=[["3rX...kA9","12.4T","1.52%"],["8pQ...xY2","9.8T","1.20%"],["SLm...vT7","7.6T","0.93%"],["6Qk...pQ1","5.4T","0.66%"],["9hJ...mN3","4.2T","0.52%"],["2kL...w88","3.9T","0.48%"],["7Fe...rC2","3.6T","0.44%"],["4Tv...xD6","3.1T","0.38%"],["B8P...qL9","2.8T","0.34%"],["1mD...sP7","2.5T","0.31%"]];$("#holdersBody").innerHTML=vals.map((v,i)=>`<tr><td>${i+1}</td><td>◉ ${v[0]}</td><td>${v[1]}</td><td>${v[2]}</td></tr>`).join("")}
-function renderRisk(){const items=[["HoneyPot","Safe",""],["LP Locked","Medium","warn"],["Mintable","Safe",""],["Tax","Low",""],["Blacklist","Unknown","warn"],["Owner","Medium","warn"]];$("#riskItems").innerHTML=items.map(x=>`<div class="risk-item ${x[2]}"><i class="dot"></i><span>${x[0]}</span><strong>${x[1]} ◉</strong></div>`).join("");$("#riskFull").innerHTML=items.map(x=>`<div class="risk-item ${x[2]}"><i class="dot"></i><span>${x[0]}</span><strong>${x[1]}</strong></div>`).join("")}
-function drawChart(canvas,seed=0){if(!canvas)return;const dpr=devicePixelRatio||1,w=canvas.clientWidth,h=canvas.clientHeight;canvas.width=w*dpr;canvas.height=h*dpr;const c=canvas.getContext("2d");c.scale(dpr,dpr);c.clearRect(0,0,w,h);c.strokeStyle="#0c2c40";c.lineWidth=1;for(let x=0;x<w;x+=w/12){c.beginPath();c.moveTo(x,0);c.lineTo(x,h);c.stroke()}for(let y=0;y<h;y+=h/7){c.beginPath();c.moveTo(0,y);c.lineTo(w,y);c.stroke()}let rng=seed||1;const rnd=()=>{rng=(rng*9301+49297)%233280;return rng/233280};let p=h*.55, pts=[];for(let i=0;i<65;i++){p += (rnd()-.43)*h*.10; p=Math.max(h*.16,Math.min(h*.76,p));pts.push(p)};c.beginPath();pts.forEach((y,i)=>{const x=i*(w/(pts.length-1));i?c.lineTo(x,y):c.moveTo(x,y)});c.strokeStyle="#11e0bf";c.lineWidth=2;c.stroke();for(let i=0;i<pts.length;i+=2){const x=i*(w/(pts.length-1)), y=pts[i], body=(rnd()-.45)*h*.055; c.fillStyle=body>0?"#ff4e6c":"#17d9b5"; c.fillRect(x-2,Math.min(y,y+body),4,Math.abs(body)+2);c.beginPath();c.moveTo(x,y-10);c.lineTo(x,y+10);c.strokeStyle=c.fillStyle;c.stroke()}for(let i=0;i<20;i++){const x=i*w/20;const vh=h*(.06+rnd()*.12);c.fillStyle="#0d746f";c.fillRect(x,h-vh,Math.max(2,w/35),vh)}}
+async function renderHolders(){
+ const body=$("#holdersBody");
+ body.innerHTML='<tr><td colspan="4" class="page-loading">Fetching holder intelligence…</td></tr>';
+ if(!selected.mint){body.innerHTML='<tr><td colspan="4" class="page-loading">Select a token first.</td></tr>';return}
+ try{
+   const j=await fetchSecurity(selected.mint);const d=j.data||j;const hs=d.top_holders||d.topHolders||[];
+   if(!hs.length)throw Error();
+   body.innerHTML=hs.slice(0,10).map((v,i)=>{
+     const a=v.address||v.owner||"Unknown", bal=v.uiAmountString||v.balance||v.amount||"—", pct=v.pct??v.percentage??"—";
+     return `<tr><td>${i+1}</td><td>◉ ${String(a).slice(0,4)}...${String(a).slice(-4)}</td><td>${bal}</td><td>${typeof pct==="number"?pct.toFixed(2)+"%":pct}</td></tr>`;
+   }).join("");
+ }catch{
+   body.innerHTML='<tr><td colspan="4" class="page-loading">No verified holder dataset returned by the security provider.</td></tr>';
+ }
+}
+async function renderRisk(){
+ const box=$("#riskItems"),full=$("#riskFull");
+ const labels=[["Mint Authority","Safe",""],["Freeze Authority","Safe",""],["Liquidity","Observed",""],["Mutable Metadata","Check provider","warn"],["Blacklist","Check provider","warn"],["Owner Controls","Check provider","warn"]];
+ box.innerHTML=labels.map(x=>`<div class="risk-item ${x[2]}"><i class="dot"></i><span>${x[0]}</span><strong>${x[1]}</strong></div>`).join("");
+ full.innerHTML='<div class="page-loading">Fetching verified security evidence…</div>';
+ if(!selected.mint){full.innerHTML=labels.map(x=>`<div class="risk-item ${x[2]}"><i class="dot"></i><span>${x[0]}</span><strong>${x[1]}</strong></div>`).join("");return}
+ try{
+   const j=await fetchSecurity(selected.mint);const d=j.data||j;
+   const risks=d.risks||[];
+   if(risks.length){
+     full.innerHTML=risks.slice(0,12).map(r=>`<div class="risk-item ${r.level==="danger"?"bad":r.level==="warn"?"warn":""}"><i class="dot"></i><span>${r.name||r.description||"Security check"}</span><strong>${r.level||"Info"}</strong></div>`).join("");
+   }else full.innerHTML='<div class="page-loading">Provider returned no explicit risk findings.</div>';
+ }catch{full.innerHTML='<div class="page-loading">Verified security provider unavailable. No invented risk findings shown.</div>'}
+}
+function drawChart(canvas,seed=0,candles=null){
+ if(!canvas)return;
+ const dpr=devicePixelRatio||1,w=canvas.clientWidth||600,h=canvas.clientHeight||230;
+ canvas.width=w*dpr;canvas.height=h*dpr;const c=canvas.getContext("2d");c.setTransform(dpr,0,0,dpr,0,0);
+ c.clearRect(0,0,w,h);c.fillStyle="#04121f";c.fillRect(0,0,w,h);
+ c.strokeStyle="#0b2b3e";c.lineWidth=1;
+ for(let x=0;x<w;x+=w/12){c.beginPath();c.moveTo(x,0);c.lineTo(x,h);c.stroke()}
+ for(let y=0;y<h;y+=h/7){c.beginPath();c.moveTo(0,y);c.lineTo(w,y);c.stroke()}
+ let data=candles;
+ if(!data||!data.length){
+   let rng=seed||1, rnd=()=>{rng=(rng*9301+49297)%233280;return rng/233280}, price=100, arr=[];
+   for(let i=0;i<70;i++){let o=price;let close=Math.max(60,o+(rnd()-.45)*9);let hi=Math.max(o,close)+rnd()*5;let lo=Math.min(o,close)-rnd()*5;arr.push({open:o,high:hi,low:lo,close,volume:20+rnd()*60});price=close}
+   data=arr;
+ }
+ const min=Math.min(...data.map(x=>x.low)),max=Math.max(...data.map(x=>x.high)),range=(max-min)||1;
+ const pad={t:10,r:8,b:34,l:42}, cw=w-pad.l-pad.r,ch=h-pad.t-pad.b;
+ const y=v=>pad.t+(max-v)/range*ch;
+ c.font="7px system-ui";c.fillStyle="#668093";
+ [max,(max+min)/2,min].forEach(v=>c.fillText(Number(v).toPrecision(5),w-50,y(v)+2));
+ const step=cw/data.length, bw=Math.max(2,step*.62);
+ const vmax=Math.max(...data.map(x=>x.volume||0))||1;
+ data.forEach((d,i)=>{
+   const x=pad.l+i*step+step/2,yo=y(d.open),yc=y(d.close),yh=y(d.high),yl=y(d.low);
+   const up=d.close>=d.open;c.strokeStyle=up?"#14d9a4":"#ff536b";c.fillStyle=c.strokeStyle;c.lineWidth=1;
+   c.beginPath();c.moveTo(x,yh);c.lineTo(x,yl);c.stroke();
+   c.fillRect(x-bw/2,Math.min(yo,yc),bw,Math.max(1,Math.abs(yc-yo)));
+   const vh=(d.volume||0)/vmax*(ch*.18);c.globalAlpha=.45;c.fillRect(x-bw/2,h-pad.b+2-vh,bw,vh);c.globalAlpha=1;
+ });
+ c.fillStyle="#61798c";c.font="7px system-ui";
+ c.fillText("OHLCV",pad.l, h-8); c.fillText("Live provider data",w-90,h-8);
+}
+async function fetchMarketSearch(q){
+ const r=await fetch("/api/market/search?q="+encodeURIComponent(q),{cache:"no-store"});if(!r.ok)throw Error("Market search failed");return r.json();
+}
+async function fetchTrendingData(){
+ const r=await fetch("/api/market/trending",{cache:"no-store"});if(!r.ok)throw Error("Trending failed");return r.json();
+}
+async function fetchOHLCV(pool,timeframe="minute"){
+ const r=await fetch("/api/market/ohlcv/"+encodeURIComponent(pool)+"?timeframe="+encodeURIComponent(timeframe),{cache:"no-store"});if(!r.ok)throw Error("Chart data unavailable");return r.json();
+}
+async function fetchSecurity(mint){
+ const r=await fetch("/api/security/"+encodeURIComponent(mint),{cache:"no-store"});if(!r.ok)throw Error("Security provider unavailable");return r.json();
+}
+async function updateLiveChart(){
+ drawChart($("#chart"),7);drawChart($("#chartBig"),11);
+ if(!selected.pair)return;
+ try{
+   const j=await fetchOHLCV(selected.pair,"minute");
+   const rows=(j.data||[]).map(x=>({open:Number(x[1]),high:Number(x[2]),low:Number(x[3]),close:Number(x[4]),volume:Number(x[5])})).filter(x=>Object.values(x).every(Number.isFinite));
+   if(rows.length){drawChart($("#chart"),7,rows.slice(-80));drawChart($("#chartBig"),11,rows.slice(-120));toast("Proper OHLCV candlestick chart loaded");}
+ }catch(e){toast("Chart provider unavailable — showing local chart shell")}
+}
+async function refreshSecurityPanels(){
+ if(!selected.mint){toast("Select a token with a valid Solana mint first");return}
+ try{
+   const j=await fetchSecurity(selected.mint);
+   const d=j.data||{};
+   const score=d.score_normalised??d.score;
+   if(Number.isFinite(Number(score))){
+     const scoreText=Number(score).toFixed(0)+" / 100";
+     $$(".risk-score").forEach(x=>x.textContent=scoreText);
+   }
+   toast("Verified RugCheck security data loaded");
+ }catch(e){toast("Security provider unavailable — no fake security result shown")}
+}
 function renderSelected(){const t=selected;$("#tokenName").innerHTML=`${t.name.toUpperCase()} <span style="font-size:10px;color:#8ea4b4">(${t.symbol.replace("$","")})</span>`;$("#tokenLogo").src=tokenLogo(t);$("#tokenChain").textContent="Solana · market data";$("#tokenMint").textContent=t.mint||"Live provider result / demo fallback";$("#tokenPrice").textContent="$"+t.price;$("#tokenChange").textContent=(t.change>=0?"+":"")+Number(t.change).toFixed(2)+"% (24h)";$("#mcap").textContent=t.cap;$("#volume").textContent=t.volume;$("#liq").textContent=t.liq;$("#fdv").textContent=t.fdv;$("#chartTitle").textContent=`${t.symbol.replace("$","")} / SOL`;$("#repName").textContent=`${t.name} (${t.symbol.replace("$","")})`;$("#repCap").textContent=t.cap;drawChart($("#chart"),7);drawChart($("#chartBig"),11)}
-async function searchDex(q){try{const r=await fetch("https://api.dexscreener.com/latest/dex/search/?q="+encodeURIComponent(q));if(!r.ok)throw Error();const j=await r.json();const p=(j.pairs||[]).find(x=>(x.chainId||"").toLowerCase()==="solana")||j.pairs?.[0];if(!p)throw Error();const b=p.baseToken||{};return {name:b.name||q,symbol:"$"+(b.symbol||"").replace("$",""),price:p.priceUsd||"—",change:Number(p.priceChange?.h24||0),cap:money(p.marketCap||p.fdv),volume:money(p.volume?.h24),liq:money(p.liquidity?.usd),fdv:money(p.fdv),logo:p.info?.imageUrl,mint:b.address,pair:p.pairAddress,chainId:p.chainId}}catch(e){return null}}
-async function loadTokenByText(q){nav("scan");toast("Searching live market data…");const live=await searchDex(q);selected=live||FALLBACK.find(x=>x.symbol.toLowerCase().includes(String(q).toLowerCase().replace("$","")))||selected;renderSelected();recordScan(selected);if(live)toast("Live Solana token loaded");else toast("Provider unavailable — showing safe fallback data")}
+async function searchDex(q){
+ try{
+   const j=await fetchMarketSearch(q);
+   return j.token||null;
+ }catch(e){return null}
+}
+async function loadTokenByText(q){
+ nav("scan");toast("Searching live market data…");
+ const live=await searchDex(q);
+ selected=live||FALLBACK.find(x=>x.symbol.toLowerCase().includes(String(q).toLowerCase().replace("$","")))||selected;
+ renderSelected();recordScan(selected);
+ if(live){toast("Live Solana token loaded");await updateLiveChart();await refreshSecurityPanels();renderHolders();renderRisk();}
+ else toast("Provider unavailable — showing safe fallback data");
+}
 function recordScan(t){let a=JSON.parse(localStorage.getItem("gx_scans")||"[]");a=[{name:t.name,symbol:t.symbol,time:new Date().toLocaleTimeString([], {hour:"2-digit",minute:"2-digit"})},...a].slice(0,10);localStorage.setItem("gx_scans",JSON.stringify(a))}
 $("#globalSearch").addEventListener("keydown",e=>{if(e.key==="Enter"&&e.target.value.trim())loadTokenByText(e.target.value.trim())});
 $("#watchBtn").onclick=()=>{let a=JSON.parse(localStorage.getItem("gx_watch")||"[]");if(!a.some(x=>x.symbol===selected.symbol))a.push(selected);localStorage.setItem("gx_watch",JSON.stringify(a));renderWatch();toast("Token added to watchlist")};
@@ -203,7 +329,14 @@ function renderWatch(){const a=JSON.parse(localStorage.getItem("gx_watch")||"[]"
 $("#shareBtn").onclick=async()=>{const txt=`GUARDYXIS Security Scan — ${selected.name} (${selected.symbol}) — Risk 32/100 — Market Cap ${selected.cap}`;try{await navigator.clipboard.writeText(txt);toast("Security summary copied")}catch{toast(txt)}};
 $("#buyBtn").onclick=()=>toast("Buy link can be connected to your preferred Solana DEX");
 $("#notifBtn").onclick=()=>nav("alerts");
-$("#refreshTrending").onclick=async()=>{toast("Refreshing trending…");try{const r=await fetch("https://api.geckoterminal.com/api/v2/networks/solana/trending_pools");if(!r.ok)throw Error();const j=await r.json();const list=(j.data||[]).slice(0,8).map(x=>{const a=x.attributes||{};return {name:a.name||"Unknown",symbol:"$"+(a.name||"?").split("/")[0].trim(),price:Number(a.base_token_price_usd||0).toFixed(8),change:Number(a.price_change_percentage?.h24||0),cap:money(a.market_cap_usd),volume:money(a.volume_usd?.h24),liq:money(a.reserve_in_usd)}});if(list.length){renderTrending(list);renderDashTrending(list.slice(0,5));toast("Trending refreshed from GeckoTerminal")}else throw Error()}catch{renderTrending();toast("Trending provider unavailable — fallback data shown")}};
+$("#refreshTrending").onclick=async()=>{
+ toast("Refreshing trending…");
+ try{
+   const j=await fetchTrendingData(); const list=j.tokens||[];
+   if(list.length){renderTrending(list);renderDashTrending(list.slice(0,5));toast("Trending data loaded")}
+   else throw Error();
+ }catch{renderTrending();renderDashTrending();toast("Trending provider unavailable — fallback shown")}
+};
 $("#printReport").onclick=()=>window.print();$("#copyReport").onclick=()=>$("#shareBtn").click();
 $("#exportData").onclick=()=>{const blob=new Blob([JSON.stringify({selected,watchlist:JSON.parse(localStorage.getItem("gx_watch")||"[]")},null,2)],{type:"application/json"});const a=document.createElement("a");a.href=URL.createObjectURL(blob);a.download="guardyxis-data.json";a.click();URL.revokeObjectURL(a.href);toast("Data exported")};
 $("#googleBtn").onclick=()=>toast("Google OAuth UI is ready; connect Firebase/Google Identity for production");
@@ -212,7 +345,17 @@ $$(".tf").forEach(b=>b.onclick=()=>{$$(".tf").forEach(x=>x.classList.remove("act
 $("#darkBtn").onclick=()=>{document.documentElement.style.setProperty("--bg","#020914");toast("Dark mode enabled")};
 $("#lightBtn").onclick=()=>toast("Light theme preview is available in Settings");
 window.addEventListener("resize",()=>{drawChart($("#chart"),7);drawChart($("#chartBig"),11)});
-renderDashTrending();renderRecent();renderTrending();renderHolders();renderRisk();renderWatch();renderSelected();
+renderDashTrending();renderRecent();renderTrending();renderWatch();renderSelected();renderRisk();
+setTimeout(()=>{updateLiveChart();},50);
+$$("[data-page]").forEach(btn=>btn.addEventListener("click",async()=>{
+ const pg=btn.dataset.page;
+ if(pg==="trending"){try{const j=await fetchTrendingData();if(j.tokens?.length){renderTrending(j.tokens);renderDashTrending(j.tokens.slice(0,5));}}catch{}}
+ if(pg==="holders")await renderHolders();
+ if(pg==="risk")await renderRisk();
+ if(pg==="charts")await updateLiveChart();
+ if(pg==="scan"){renderSelected();await updateLiveChart();}
+}));
+
 </script>
 </body>
 </html>
