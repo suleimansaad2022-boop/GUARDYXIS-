@@ -1,258 +1,31 @@
-<!doctype html>
-<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<title>GUARDYXIS V12</title>
-<style>
-:root{--bg:#02090d;--card:#06161c;--line:#10464c;--green:#19f39b;--teal:#55e8d5;--text:#edfffa;--muted:#86aaaa;--red:#ff7188;--yellow:#ffd166}
-*{box-sizing:border-box}body{margin:0;background:radial-gradient(circle at 55% -10%,#124044,#02090d 48%);color:var(--text);font:14px system-ui,Arial;min-height:100vh}
-.app{display:grid;grid-template-columns:215px 1fr;min-height:100vh}.side{padding:22px 10px;border-right:1px solid var(--line);background:#020b10e8;display:flex;flex-direction:column}.logo{font-size:21px;font-weight:900;padding:8px 10px 28px;color:#fff}.logo b{color:var(--green)}.nav{display:grid;gap:5px}.nav button{background:transparent;border:1px solid transparent;text-align:left;color:#a4c3c2;padding:13px;border-radius:12px}.nav button.active{background:#06352d;color:var(--green);border-color:#087e68}.mascot{margin-top:auto;text-align:center;color:var(--muted);font-size:12px;letter-spacing:1px}.mascot svg{width:180px;max-width:100%;filter:drop-shadow(0 0 18px #00e6b533)}.network{border:1px solid #087e68;border-radius:12px;padding:12px;margin-top:20px;color:var(--green)}
-.main{min-width:0}.top{height:86px;border-bottom:1px solid var(--line);display:flex;align-items:center;gap:15px;padding:16px 25px}.search{display:flex;align-items:center;gap:8px;max-width:560px;flex:1;margin:auto;border:1px solid #087e68;border-radius:16px;padding:0 12px;background:#031217}.search input{flex:1;min-width:0;background:none;border:0;outline:0;color:white;padding:13px}.top button,.btn{background:#061d23;color:var(--text);border:1px solid var(--line);border-radius:10px;padding:10px 13px;font-weight:700}.content{padding:20px}.grid{display:grid;grid-template-columns:minmax(0,1.2fr) minmax(310px,.8fr);gap:18px}.card{background:linear-gradient(145deg,#061a20,#041117);border:1px solid var(--line);border-radius:16px;padding:18px;min-width:0}.glow{border-color:var(--green);box-shadow:0 0 24px #19f39b12}.head{display:flex;justify-content:space-between;align-items:center;gap:8px;margin-bottom:16px}.head h2{margin:0;font-size:22px}.head p{margin:4px 0 0;color:var(--muted);font-size:12px}.list{display:grid;gap:12px}.token{display:grid;grid-template-columns:65px minmax(0,1fr) auto 22px;align-items:center;gap:11px;padding:12px;border:1px solid #0b4b51;border-radius:15px;background:#04151b;cursor:pointer}.token:hover{border-color:var(--green)}.avatar{width:61px;height:61px;border-radius:50%;border:3px solid var(--green);display:grid;place-items:center;text-align:center;font-size:10px;background:#091f25;overflow:hidden}.token h3{margin:0 0 5px;font-size:17px}.tag{font-size:10px;color:var(--green);background:#06382e;border:1px solid #087e68;border-radius:99px;padding:3px 8px}.addr{font-size:12px;color:#9abbbb;overflow-wrap:anywhere;margin-top:4px}.mc{text-align:right}.mc small{display:block;color:#587b80}.mc strong{font-size:16px}.trend{font-size:24px;color:var(--green)}.receipt-head{display:flex;align-items:center;gap:12px;margin:15px 0}.receipt-head .avatar{width:75px;height:75px}.receipt-head h3{font-size:22px;margin:0 0 6px}.stats{display:grid;grid-template-columns:1fr 1fr;border:1px solid var(--line);border-radius:12px;padding:13px;gap:12px}.stats>div+div{border-left:1px solid var(--line);padding-left:12px}.stats strong{display:block;font-size:18px;margin-top:5px}.tiny{font-size:11px;color:var(--muted)}.green{color:var(--green)}.risk{border:1px solid var(--line);border-radius:12px;padding:13px;margin-top:12px}.riskline{display:flex;justify-content:space-between;gap:8px}.bar{height:9px;background:#0a2a31;border-radius:99px;margin:12px 0;overflow:hidden}.bar i{display:block;height:100%;width:32%;background:var(--green)}.riskgrid{display:grid;grid-template-columns:1fr 1fr;gap:8px}.riskitem{display:flex;justify-content:space-between;gap:6px;background:#061820;padding:8px;border-radius:8px;font-size:11px}.unknown{color:var(--yellow)}.rows{display:grid;gap:7px;margin-top:10px}.row{display:flex;justify-content:space-between;gap:8px;border-bottom:1px solid #0a3036;padding:6px 0;font-size:12px}.actions{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:12px}.actions button:last-child{grid-column:1/-1;background:linear-gradient(90deg,#18dc91,#43e5c0);color:#00140d;border:0}.page{display:none}.page.active{display:block}.wide{margin-top:18px}.chart{width:100%;height:320px;background:#031117;border:1px solid var(--line);border-radius:12px}.footer{text-align:center;color:var(--muted);font-size:11px;padding:22px}
-@media(max-width:1000px){.app{grid-template-columns:70px 1fr}.side{padding:15px 6px}.logo{font-size:0;text-align:center}.logo:before{content:'🛡';font-size:25px}.nav button{font-size:0;text-align:center;padding:14px 4px}.nav button:before{content:'◆';font-size:16px;color:var(--teal)}.mascot,.network{display:none}.grid{grid-template-columns:1fr}.top{padding:12px}.content{padding:12px}}
-.nav button{display:flex;align-items:center;gap:12px;font-size:14px}.nav button span{display:inline}.nav button.active{font-weight:800}.mini-action{font-size:11px}.receipt-actions{display:flex;flex-wrap:wrap;gap:8px}
-@media(max-width:700px){.app{display:block}.side{display:none}.top{height:auto;flex-wrap:wrap;padding:10px}.search{flex-basis:100%;order:2;max-width:none}.content{padding:10px}.grid{display:flex;flex-direction:column}.card{padding:12px}.token{grid-template-columns:55px minmax(0,1fr) auto;gap:8px}.avatar{width:50px;height:50px}.mc{grid-column:auto;text-align:right}.trend{grid-column:auto;grid-row:auto;font-size:18px}.token h3{font-size:14px}.addr{font-size:10px}.mc strong{font-size:12px}.head h2{font-size:18px}.receipt-head h3{font-size:18px}.riskgrid{grid-template-columns:1fr}.actions{grid-template-columns:1fr 1fr}}
-@media(max-width:550px){.nav button span{display:none}.nav button{justify-content:center}.receipt-actions .btn{flex:1}
-.token{grid-template-columns:52px minmax(0,1fr) 18px}.avatar{width:50px;height:50px}.mc{grid-column:2;text-align:left}.trend{grid-column:3;grid-row:1}.riskgrid{grid-template-columns:1fr}.top{flex-wrap:wrap;height:auto}.search{flex-basis:100%;order:2}.card{padding:12px}}
-
-/* GUARDYXIS responsive correction */
-html,body{width:100%;max-width:100%;overflow-x:hidden}
-*,*::before,*::after{box-sizing:border-box}
-img,svg,canvas{max-width:100%}
-.main{min-width:0;width:100%;overflow-x:hidden}
-.content{min-width:0}
-.nav button{display:flex;align-items:center;gap:12px}
-.nav button:before{content:none!important}
-@media (max-width:1100px){
-  .app{grid-template-columns:76px minmax(0,1fr)}
-  .side{padding:14px 7px}
-  .logo{font-size:0;text-align:center;padding:8px 0 24px}
-  .logo:before{content:'🛡️';font-size:25px}
-  .nav button{justify-content:center;text-align:center;padding:13px 4px;font-size:20px;gap:0}
-  .nav button span{display:none}
-  .mascot,.network{display:none}
-  .top{padding:12px 14px}
-  .content{padding:14px}
-  .grid{grid-template-columns:minmax(0,1fr)}
-  .receipt{width:100%}
-}
-@media (max-width:700px){
-  .app{display:grid;grid-template-columns:64px minmax(0,1fr);min-height:100vh}
-  .side{display:flex;padding:10px 5px;position:relative}
-  .logo{padding:6px 0 18px}
-  .logo:before{font-size:22px}
-  .nav{gap:7px}
-  .nav button{min-height:46px;border-radius:10px;font-size:19px}
-  .top{height:auto;min-height:70px;flex-wrap:wrap;gap:9px;padding:10px}
-  .search{order:3;flex-basis:100%;max-width:none;width:100%}
-  .content{padding:10px}
-  .grid{display:flex;flex-direction:column;gap:12px}
-  .card{padding:12px;border-radius:14px}
-  .head{align-items:flex-start}
-  .head h2{font-size:19px}
-  .head p{font-size:11px;line-height:1.4}
-  .token{grid-template-columns:54px minmax(0,1fr) auto;gap:8px;padding:10px}
-  .avatar{width:50px;height:50px}
-  .token h3{font-size:14px;overflow-wrap:anywhere}
-  .addr{font-size:10px;overflow-wrap:anywhere}
-  .mc{text-align:right;min-width:0}
-  .mc small{font-size:9px}
-  .mc strong{font-size:12px;overflow-wrap:anywhere}
-  .trend{font-size:16px}
-  .receipt-head h3{font-size:18px}
-  .stats{gap:8px;padding:10px}
-  .stats strong{font-size:15px}
-  .riskgrid{grid-template-columns:1fr}
-  .actions{grid-template-columns:1fr 1fr}
-  .actions .btn{font-size:11px;padding:9px 6px}
-  .footer{padding:18px 8px;font-size:9px}
-}
-@media (max-width:420px){
-  .app{grid-template-columns:56px minmax(0,1fr)}
-  .side{padding:8px 3px}
-  .nav button{min-height:42px;font-size:17px}
-  .content{padding:7px}
-  .token{grid-template-columns:46px minmax(0,1fr);gap:7px}
-  .avatar{width:44px;height:44px}
-  .mc{grid-column:2;text-align:left}
-  .trend{grid-column:2;grid-row:auto}
-  .actions{grid-template-columns:1fr}
-  .actions button:last-child{grid-column:auto}
-}
-
-/* V12 UX upgrade: named sidebar, standalone scanner, theme and account controls */
-:root{--panel:#06161c;--input:#031217;--shadow:0 8px 30px #0005}
-body.light{--bg:#eef7f5;--card:#ffffff;--line:#b8d8d2;--green:#087f57;--teal:#087f8a;--text:#102522;--muted:#54716d;--input:#f2fbf8;background:linear-gradient(135deg,#e8faf3,#f8fffd 60%,#dff4ef)}
-body.light .side{background:#eaf8f3eF}
-body.light .card,body.light .token{background:var(--card);box-shadow:var(--shadow)}
-body.light .search,body.light input{background:var(--input);color:var(--text)}
-body.light .top button,body.light .btn{background:#fff;color:var(--text)}
-body.light .riskitem{background:#f0faf7}
-body.light .addr,body.light .tiny{color:var(--muted)}
-body.light .nav button{color:#385c55}
-body.light .nav button.active{background:#d5f7e8;color:#087f57}
-.top .top-action{white-space:nowrap}
-.account-panel{display:flex;align-items:center;gap:8px}
-.modal-backdrop{position:fixed;inset:0;background:#0009;display:none;place-items:center;z-index:1000;padding:18px}
-.modal-backdrop.open{display:grid}
-.modal{width:min(440px,100%);background:var(--card);color:var(--text);border:1px solid var(--green);border-radius:18px;padding:22px;box-shadow:0 0 50px #19f39b22}
-.modal input,.settings-input{width:100%;padding:12px;border:1px solid var(--line);border-radius:10px;background:var(--input);color:var(--text);margin:7px 0}
-.modal .row-actions{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px}
-.setting-row{display:flex;justify-content:space-between;align-items:center;gap:12px;border-bottom:1px solid var(--line);padding:14px 0}
-.switch{accent-color:var(--green);transform:scale(1.25)}
-#scanReceipt{margin-top:14px}
-.status-badge{font-size:11px;border:1px solid var(--line);border-radius:999px;padding:4px 8px;color:var(--green)}
-@media(max-width:700px){.account-panel{width:100%;justify-content:flex-end}.top .top-action{padding:8px}.modal{padding:16px}}
-</style></head>
-<body><div class="app">
-<aside class="side"><div class="logo">🛡 GUARDY<span style="color:var(--green)">XIS</span> <b>V12</b></div>
-<nav class="nav">
-<button class="active" data-page="home">⌂ <span>Dashboard</span></button>
-<button data-page="trend">🔥 <span>Trending</span></button>
-<button data-page="scan">⌕ <span>Scanner</span></button>
-<button data-page="analysis">⌁ <span>Analysis</span></button>
-<button data-page="watch">☆ <span>Watchlist</span></button>
-<button data-page="reports">▤ <span>Reports</span></button>
-<button data-page="risk">♢ <span>Risk Tools</span></button>
-<button data-page="settings">⚙ <span>Settings</span></button>
-</nav>
-<div class="mascot"><svg viewBox="0 0 220 240"><path d="M110 20L190 55 178 145Q160 195 110 220Q60 195 42 145L30 55z" fill="#071e27" stroke="#00dcb0" stroke-width="3"/><path d="M50 83L25 35 65 48 90 82M170 83L195 35 155 48 130 82" fill="#071e27" stroke="#18e9d0" stroke-width="4"/><path d="M62 102L96 92 105 120 72 132zM158 102L124 92 115 120 148 132z" fill="#020b10" stroke="#18f39a" stroke-width="3"/><path d="M83 161Q110 145 137 161L130 192 110 204 90 192z" fill="#020b10" stroke="#18f39a" stroke-width="3"/></svg><br>GUARD THE<br><b style="color:var(--green)">GOOD TRADES</b><br>NOT JUST THE HYPE</div>
-<div class="network">🟢 Solana Network<br><span class="tiny">Healthy</span></div></aside>
-<div class="main"><header class="top"><div class="search">◎<input id="search" placeholder="Token address, name, or symbol…"><button onclick="searchToken()">⌕</button></div><div class="account-panel"><button class="top-action" onclick="toggleTheme()" title="Toggle light or dark mode">☼ Theme</button><button class="top-action" onclick="openAuth()">♙ Sign in</button><button class="top-action">◎ Solana⌄</button></div></header>
-<div class="content">
-<section id="home" class="page active"><div id="searchResults" class="card" style="display:none;margin-bottom:14px"></div><div class="grid"><section class="card"><div class="head"><div><h2>🔥 Trending Tokens</h2><p>Live trending Solana tokens from GeckoTerminal <span id="refreshState" class="green">• Auto refresh: 30s</span></p></div><button class="btn" onclick="loadTrending()">View All ›</button></div><div id="list" class="list">Loading…</div></section><aside class="card glow"><div class="head"><div><h2>🧾 Token Receipt</h2><p>Detailed token analysis report</p></div><button class="btn" onclick="shareReceipt()">Share</button><button class="btn" onclick="downloadReceiptImage()">🖼 Save Card</button></div><div id="receipt"><div class="tiny">Select a token to inspect its receipt.</div></div></aside></div></section>
-<section id="trend" class="page"><div class="card"><div class="head"><h2>🔥 Trending Tokens</h2><button class="btn" onclick="loadTrending()">Refresh</button></div><div id="fullList" class="list"></div></div></section>
-<section id="scan" class="page"><div class="card"><div class="head"><div><h2>⌕ Token Scanner</h2><p class="tiny">Scan a Solana mint address, pair address, name, or symbol.</p></div><span class="status-badge">Standalone tool</span></div><div style="display:flex;gap:8px;flex-wrap:wrap"><input id="mint" style="flex:1;min-width:0;background:var(--input);border:1px solid var(--line);border-radius:10px;color:var(--text);padding:12px" placeholder="Paste mint or pair address"><button class="btn" onclick="scan()">Scan Token</button></div><p id="status" class="tiny"></p><div id="scanReceipt" class="card" style="display:none"></div></div></section>
-<section id="analysis" class="page"><div class="card"><div class="head"><h2>Market Analysis</h2><div><button class="btn" onclick="loadChart('minute')">1m</button><button class="btn" onclick="loadChart('hour')">1h</button><button class="btn" onclick="loadChart('day')">1D</button></div></div><canvas id="chart" class="chart" width="900" height="400"></canvas><p id="chartStatus" class="tiny"></p><div id="patterns" class="riskgrid"></div></div></section>
-<section id="watch" class="page"><div class="card"><h2>Watchlist</h2><div id="watchList" class="list"></div></div></section>
-<section id="reports" class="page"><div class="card"><h2>Reports</h2><div id="reportList" class="list"></div></div></section>
-<section id="risk" class="page"><div class="card"><h2>Risk Tools</h2><p class="tiny">Risk outputs are heuristic indicators, not a formal security audit or guarantee.</p><div class="riskgrid"><div class="riskitem">Liquidity check <b class="unknown">API dependent</b></div><div class="riskitem">Contract checks <b class="unknown">Not verified</b></div></div></div></section>
-<section id="settings" class="page"><div class="card"><h2>⚙ Settings</h2><p class="tiny">Customize your GUARDYXIS experience. No wallet connection or private-key input is required.</p>
-<div class="setting-row"><div><b>Appearance</b><div class="tiny">Switch between dark and light mode.</div></div><button class="btn" onclick="toggleTheme()">Toggle theme</button></div>
-<div class="setting-row"><div><b>Auto-refresh trending</b><div class="tiny">Refresh trending data every 30 seconds.</div></div><input class="switch" id="autoRefreshToggle" type="checkbox" checked onchange="setAutoRefresh(this.checked)"></div>
-<div class="setting-row"><div><b>Compact mobile navigation</b><div class="tiny">Keep the named sidebar usable on small screens.</div></div><span class="status-badge">Responsive</span></div>
-<div class="setting-row"><div><b>Account</b><div id="accountStatus" class="tiny">Not signed in</div></div><button class="btn" onclick="openAuth()">Sign in / Sign up</button></div>
-<div style="margin-top:16px"><button class="btn" onclick="clearSavedData()">Clear local saved reports and preferences</button></div>
-</div></section>
-</div><div class="footer">GUARDYXIS V12 • Educational research only • Never share your seed phrase</div></div></div>
-
-<div id="authModal" class="modal-backdrop" role="dialog" aria-modal="true" aria-label="Account access">
-  <div class="modal">
-    <div class="head"><h2>GUARDYXIS Account</h2><button class="btn" onclick="closeAuth()">✕</button></div>
-    <p class="tiny">Create a local demo account now. Secure Gmail/Google OAuth requires connecting your own Firebase or Google Identity client configuration.</p>
-    <input id="authName" placeholder="Your name">
-    <input id="authEmail" type="email" placeholder="Gmail address">
-    <div class="row-actions"><button class="btn" onclick="continueWithGoogle()">Continue with Google</button><button class="btn" onclick="localAccount()">Create / Sign in</button></div>
-    <p id="authStatus" class="tiny"></p>
-  </div>
-</div>
-
+<!doctype html><html><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>GUARDYXIS</title><style>
+:root{--b:#050a12;--p:#0b1727;--p2:#0e2034;--l:#17324a;--t:#eaf4ff;--m:#7890a8;--g:#12e6c0;--r:#ff5d79;--y:#ffc857}*{box-sizing:border-box}body{margin:0;background:radial-gradient(circle at 15% 0,#12385c55,transparent 30%),var(--b);color:var(--t);font:14px system-ui,sans-serif}.app{display:flex;min-height:100vh}.side{width:235px;flex:0 0 235px;position:sticky;top:0;height:100vh;background:#06101cf5;border-right:1px solid var(--l);padding:18px 14px}.brand{font-weight:900;font-size:21px;margin:5px 7px 28px}.brand i{font-style:normal;color:var(--g)}.nav{display:grid;gap:5px}.nav button,.mob button{background:transparent;color:var(--m);border:1px solid transparent;border-radius:10px;padding:10px;text-align:left}.nav button.active,.nav button:hover,.mob button.active{background:#12e6c018;color:var(--t);border-color:#12e6c044}.main{flex:1;padding:16px 20px;min-width:0}.top{display:flex;gap:10px;margin-bottom:15px}.search{flex:1;display:flex;gap:7px}.search input{flex:1;background:#0b1b2d;color:var(--t);border:1px solid var(--l);border-radius:10px;padding:11px}.btn{background:#0a1929;color:var(--t);border:1px solid var(--l);border-radius:9px;padding:9px 12px}.primary{background:linear-gradient(135deg,#0fdcb9,#16a8e9);color:#031016;border:0;font-weight:800}.page{display:none}.page.active{display:block}.hero,.card{background:linear-gradient(145deg,#0b1929,#081321);border:1px solid var(--l);border-radius:14px;padding:15px;box-shadow:0 14px 40px #0005}.hero{padding:24px;margin-bottom:14px}.hero h1{font-size:29px;margin:0 0 7px}.muted,.mini{color:var(--m)}.grid4{display:grid;grid-template-columns:repeat(4,1fr);gap:10px}.metric{font-size:22px;font-weight:900}.grid{display:grid;grid-template-columns:repeat(5,1fr);gap:9px}.token{cursor:pointer}.token:hover{border-color:#12e6c077}.tokenTop{display:flex;justify-content:space-between}.coin{width:32px;height:32px;border-radius:50%;display:grid;place-items:center;background:linear-gradient(135deg,#0dd9bc,#326bff);font-weight:900}.name{display:flex;gap:8px;align-items:center}.pill{font-size:9px;background:#10243a;padding:3px 6px;border-radius:99px}.token h3{font-size:13px;margin:8px 0 3px}.price{font-weight:900}.green{color:var(--g)}.red{color:var(--r)}.layout{display:grid;grid-template-columns:1.6fr .8fr;gap:12px}.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:7px;margin:13px 0}.stat{background:#0b1a2a;border:1px solid #173149;border-radius:9px;padding:9px}.chart{height:350px;background:#07111d;border:1px solid #17344d;border-radius:10px}.chart svg{width:100%;height:100%}.risk{display:grid;grid-template-columns:24px 1fr auto;gap:8px;padding:9px;background:#091a2a;border:1px solid #173149;border-radius:9px;margin:6px 0}.table{overflow:auto}.table table{width:100%;border-collapse:collapse}.table td,.table th{padding:9px;border-bottom:1px solid #173149;text-align:left;font-size:10px;white-space:nowrap}.table th{color:var(--m)}.empty{text-align:center;padding:30px;color:var(--m)}.mob{display:none}
+@media(max-width:1150px){.grid{grid-template-columns:repeat(3,1fr)}.grid4{grid-template-columns:repeat(2,1fr)}}@media(max-width:800px){.side{display:none}.main{padding:11px 10px 72px}.mob{position:fixed;display:flex;bottom:0;left:0;right:0;z-index:20;background:#06101cf7;border-top:1px solid var(--l);overflow:auto;padding:6px;gap:4px}.mob button{font-size:9px;white-space:nowrap}.grid,.layout{grid-template-columns:1fr 1fr}.stats{grid-template-columns:1fr 1fr}}@media(max-width:520px){.grid,.grid4,.layout{grid-template-columns:1fr}.hero h1{font-size:23px}.top{flex-wrap:wrap}.search{flex-basis:100%}.chart{height:270px}}
+</style></head><body><div class="app"><aside class="side"><div class="brand">🛡️ GUARDY<i>XIS</i></div><div class="mini" style="margin:-20px 0 18px 43px;font-size:9px">Scan · Analyze · Stay Safe</div><nav class="nav" id="nav"></nav></aside><main class="main"><header class="top"><div class="search"><input id="q" placeholder="Search token by name, symbol or mint address"><button class="btn primary" id="go">Scan</button></div><button class="btn">● Connected</button></header>
+<section id="dashboard" class="page active"><div class="hero"><h1>Your Web3 security & analytics hub.</h1><p class="muted">Scan Solana tokens, inspect market structure, understand holder concentration and review security evidence.</p><button class="btn primary" data-go="scanner">Scan Token →</button></div><div id="metrics" class="grid4"></div><div style="margin-top:15px"><div class="section"><h2>Trending Tokens</h2><div id="dash" class="grid"></div></div></div></section>
+<section id="scanner" class="page"><h2>Token Scan</h2><div class="card"><div class="search"><input id="sq" placeholder="Token name, symbol or Solana mint"><button class="btn primary" id="scan">Analyze</button></div></div><div id="result" style="margin-top:12px"></div></section>
+<section id="trending" class="page"><div style="display:flex;justify-content:space-between"><h2>Trending Tokens</h2><button class="btn" id="refresh">↻ Refresh</button></div><div id="trends" class="grid"></div></section>
+<section id="charts" class="page"><h2>Charts</h2><div id="chartMeta" class="card">Select a token first.</div><div id="chart" class="chart" style="margin-top:12px"></div></section>
+<section id="risk" class="page"><h2>Risk Analysis</h2><div id="riskPanel" class="card empty">Scan a token first.</div></section>
+<section id="holders" class="page"><h2>Holder Intelligence</h2><div id="holderPanel" class="card empty">Scan a token first.</div></section>
+<section id="watchlist" class="page"><h2>Watchlist</h2><div id="watch" class="grid"></div></section>
+<section id="alerts" class="page"><h2>Alerts</h2><div class="card">Browser-local price alerts while the app is open.</div></section>
+<section id="reports" class="page"><h2>Reports</h2><div id="report"></div></section>
+<section id="settings" class="page"><h2>Settings</h2><div class="layout"><div class="card"><h3>Appearance</h3><p class="muted">Dark cyber-finance interface matching the GUARDYXIS reference.</p></div><div class="card"><h3>Data & Privacy</h3><p class="muted">Local watchlist and scan history. Provider secrets remain server-side.</p></div></div></section>
+</main></div><nav class="mob" id="mob"></nav>
 <script>
-const $=id=>document.getElementById(id);let current=null,pool=null,reports=JSON.parse(localStorage.getItem('gx_reports')||'[]');
-const money=n=>n==null?'—':Number(n).toLocaleString(undefined,{style:'currency',currency:'USD',maximumFractionDigits:Number(n)<1?10:2});
-const short=s=>s?s.slice(0,5)+'…'+s.slice(-4):'—';
-function go(p){document.querySelectorAll('.page').forEach(x=>x.classList.remove('active'));$(p).classList.add('active');document.querySelectorAll('[data-page]').forEach(x=>x.classList.toggle('active',x.dataset.page===p));if(p==='watch')renderWatch();if(p==='reports')renderReports()}
-document.querySelectorAll('[data-page]').forEach(b=>b.onclick=()=>go(b.dataset.page));
-function avatar(t){return '<div class="avatar">'+String(t||'TOKEN').slice(0,8)+'</div>'}
-function card(p){let b=p.baseToken||{};let a=b.address||p.pairAddress;return '<div class="token" onclick="scanMint(\''+a+'\')">'+avatar(b.symbol||b.name)+'<div><h3>'+(b.symbol||b.name||'TOKEN')+' ✦</h3><span class="tag">Trending</span><div class="addr">'+short(a)+' ⧉</div></div><div class="mc"><small>MC</small><strong>'+money(p.marketCap||p.fdv)+'</strong></div><div class="trend">⌁</div></div>'}
-async function loadTrending(){let boxes=[$('list'),$('fullList')];boxes.forEach(x=>x.innerHTML='Loading…');try{let r=await fetch('https://api.geckoterminal.com/api/v2/networks/solana/trending_pools');let d=await r.json();let ps=(d.data||[]).slice(0,8).map(x=>{let a=x.attributes||{},id=(x.id||'').split('_').pop();return{pairAddress:id,baseToken:{name:(a.name||'').split(' / ')[0],symbol:(a.name||'').split(' / ')[0],address:id},marketCap:a.market_cap_usd,fdv:a.fdv_usd}});boxes.forEach(x=>x.innerHTML=ps.map(card).join('')||'No data')}catch(e){boxes.forEach(x=>x.innerHTML='Unable to load trending data: '+e.message)}}
-async function searchToken(){
- const q=$('search').value.trim(); if(!q)return;
- $('searchResults').style.display='block';
- $('searchResults').innerHTML='<b>Searching Solana tokens…</b>';
- try{
-  const r=await fetch('https://api.dexscreener.com/latest/dex/search?q='+encodeURIComponent(q));
-  const d=await r.json();
-  const pairs=(d.pairs||[]).filter(p=>(p.chainId||'').toLowerCase()==='solana').slice(0,12);
-  $('searchResults').innerHTML='<div class="head"><h2>Search Results</h2><button class="btn" onclick="closeSearch()">Close</button></div>'+
-   (pairs.length?'<div class="list">'+pairs.map(card).join('')+'</div>':'<div class="tiny">No Solana token found. Try another name, symbol, or mint address.</div>');
- }catch(e){$('searchResults').innerHTML='<div class="tiny">Search failed: '+e.message+'</div>'}
-}
-function closeSearch(){$('searchResults').style.display='none'}
-async function scan(){if($('mint').value.trim())scanMint($('mint').value.trim())}
-async function scanMint(m){
- $('status').textContent='Loading market data…';
- try{
-  let r=await fetch('https://api.dexscreener.com/latest/dex/tokens/'+encodeURIComponent(m));
-  let d=await r.json();
-  let p=(d.pairs||[]).filter(x=>(x.chainId||'').toLowerCase()==='solana').sort((a,b)=>(b.liquidity?.usd||0)-(a.liquidity?.usd||0))[0];
-  if(!p){
-   let sr=await fetch('https://api.dexscreener.com/latest/dex/search?q='+encodeURIComponent(m));
-   let sd=await sr.json();
-   p=(sd.pairs||[]).filter(x=>(x.chainId||'').toLowerCase()==='solana').sort((a,b)=>(b.liquidity?.usd||0)-(a.liquidity?.usd||0))[0];
-  }
-  if(!p)throw Error('No Solana market pair found');
-  current={mint:p.baseToken?.address||m,pair:p};pool=p.pairAddress;
-  renderReceipt();$('scanReceipt').style.display='block';$('scanReceipt').innerHTML=$('receipt').innerHTML;saveReport();$('status').textContent='Scan complete';closeSearch();go('scan');loadChart('hour');
- }catch(e){$('status').textContent='Error: '+e.message}
-}
-function renderReceipt(){let p=current.pair,b=p.baseToken||{},liq=p.liquidity?.usd||0,vol=p.volume?.h24||0,score=liq<10000?82:liq<100000?58:32;$('receipt').innerHTML='<div class="receipt-head">'+avatar(b.symbol)+'<div><h3>'+(b.symbol||'TOKEN')+' ✦</h3><span class="tag">Market data</span><div class="addr">'+short(current.mint)+' ⧉</div></div></div><div class="stats"><div><span class="tiny">Price</span><strong>'+money(p.priceUsd)+'</strong><span class="green tiny">'+(p.priceChange?.h24??'—')+'% (24h)</span></div><div><span class="tiny">Liquidity</span><strong>'+money(liq)+'</strong><span class="tiny">24h Volume<br>'+money(vol)+'</span></div></div><div class="risk"><div class="riskline"><b>🛡 Risk Score</b><b class="green">'+score+' / 100</b></div><div class="bar"><i style="width:'+score+'%"></i></div><div class="riskgrid">'+['Honeypot: Unknown','LP locked: Unknown','Mintable: Unknown','Tax: Unknown','Blacklist: Unknown','Owner: Unknown'].map(x=>'<div class="riskitem">'+x+' <b class="unknown">?</b></div>').join('')+'</div></div><div class="risk"><b>ⓘ Token Overview</b><div class="rows"><div class="row"><span>Symbol</span><b>'+ (b.symbol||'—')+'</b></div><div class="row"><span>Name</span><b>'+ (b.name||'—')+'</b></div><div class="row"><span>Chain</span><b>Solana</b></div><div class="row"><span>DEX</span><b>'+ (p.dexId||'—')+'</b></div><div class="row"><span>Pair</span><b>'+short(p.pairAddress)+'</b></div></div></div><div class="actions"><button onclick="copyText(\''+current.mint+'\')">▣ Copy Address</button><button onclick="go(\'scan\')">⌕ Scan Token</button><button onclick="window.open(\''+(p.url||'#')+'\',\'_blank\')">↗ View Market</button></div>'}
-function copyText(t){navigator.clipboard?.writeText(t);alert('Copied where supported')}
-function receiptText(){let p=current?.pair;if(!p)return'';return 'GUARDYXIS V12 RECEIPT\nToken: '+(p.baseToken?.name||'Unknown')+' ('+(p.baseToken?.symbol||'')+')\nMint: '+current.mint+'\nPrice: '+money(p.priceUsd)+'\nLiquidity: '+money(p.liquidity?.usd)+'\n24h Volume: '+money(p.volume?.h24)+'\nDEX: '+p.dexId+'\nPair: '+p.pairAddress}
-async function shareReceipt(){let t=receiptText();if(!t)return;if(navigator.share){try{await navigator.share({title:'GUARDYXIS Receipt',text:t})}catch(e){}}else copyText(t)}
-function saveReport(){let p=current.pair;reports=[{mint:current.mint,name:p.baseToken?.name||'Unknown',symbol:p.baseToken?.symbol||'',time:new Date().toISOString()},...reports.filter(x=>x.mint!==current.mint)].slice(0,20);localStorage.setItem('gx_reports',JSON.stringify(reports))}
-function renderReports(){$('reportList').innerHTML=reports.length?reports.map(r=>'<div class="token" onclick="scanMint(\''+r.mint+'\')">'+avatar(r.symbol)+'<div><h3>'+r.name+'</h3><div class="addr">'+new Date(r.time).toLocaleString()+'</div></div></div>').join(''):'No saved reports'}
-function renderWatch(){$('watchList').innerHTML='<div class="tiny">Watchlist storage is ready. Add a watchlist control after selecting a token.</div>'}
-function loadChart(tf){if(!pool){$('chartStatus').textContent='Scan a token first';return}$('chartStatus').textContent='Loading candles…';fetch('https://api.geckoterminal.com/api/v2/networks/solana/pools/'+pool+'/ohlcv/'+tf+'?limit=100').then(r=>r.json()).then(d=>{let rows=d.data?.attributes?.ohlcv_list||[];draw(rows);$('chartStatus').textContent='Loaded '+rows.length+' candles'}).catch(e=>$('chartStatus').textContent='Chart unavailable: '+e.message)}
-function draw(rows){let c=$('chart'),x=c.getContext('2d');x.clearRect(0,0,c.width,c.height);if(!rows.length){x.fillStyle='#86aaaa';x.fillText('No candle data',20,30);return}let a=rows.slice().reverse(),hi=Math.max(...a.map(v=>+v[2])),lo=Math.min(...a.map(v=>+v[3])),range=hi-lo||1,step=c.width/a.length,y=v=>c.height-25-(v-lo)/range*(c.height-45);a.forEach((v,i)=>{let o=+v[1],h=+v[2],l=+v[3],cl=+v[4],xx=i*step+step/2;x.strokeStyle=cl>=o?'#19f39b':'#ff7188';x.fillStyle=x.strokeStyle;x.beginPath();x.moveTo(xx,y(h));x.lineTo(xx,y(l));x.stroke();x.fillRect(xx-step*.3,y(Math.max(o,cl)),Math.max(2,step*.6),Math.max(1,Math.abs(y(o)-y(cl))))})}
-
-function downloadReceiptImage(){
- if(!current?.pair){alert('Select a token first');return}
- const p=current.pair,b=p.baseToken||{},canvas=document.createElement('canvas');
- canvas.width=1200;canvas.height=1500;const c=canvas.getContext('2d');
- const grad=c.createLinearGradient(0,0,1200,1500);grad.addColorStop(0,'#031217');grad.addColorStop(1,'#061d23');
- c.fillStyle=grad;c.fillRect(0,0,1200,1500);
- c.strokeStyle='#19f39b';c.lineWidth=5;c.strokeRect(28,28,1144,1444);
- c.fillStyle='#edfffa';c.font='bold 52px system-ui';c.fillText('GUARDYXIS',70,100);
- c.fillStyle='#19f39b';c.font='bold 30px system-ui';c.fillText('V12 TOKEN RECEIPT',72,150);
- c.fillStyle='#86aaaa';c.font='24px system-ui';c.fillText('Educational market research report',72,190);
- c.strokeStyle='#10464c';c.lineWidth=2;c.strokeRect(65,240,1070,260);
- c.fillStyle='#edfffa';c.font='bold 46px system-ui';c.fillText((b.name||'Unknown').slice(0,28),100,315);
- c.fillStyle='#55e8d5';c.font='30px system-ui';c.fillText('$'+(b.symbol||'TOKEN'),100,365);
- c.fillStyle='#86aaaa';c.font='22px system-ui';c.fillText('Mint: '+short(current.mint),100,420);
- c.fillStyle='#edfffa';c.font='bold 30px system-ui';c.fillText('PRICE',100,590);c.fillText('LIQUIDITY',650,590);
- c.fillStyle='#19f39b';c.font='bold 34px system-ui';c.fillText(money(p.priceUsd),100,640);c.fillText(money(p.liquidity?.usd),650,640);
- c.fillStyle='#edfffa';c.font='bold 30px system-ui';c.fillText('24H VOLUME',100,750);c.fillText('DEX',650,750);
- c.fillStyle='#55e8d5';c.font='bold 34px system-ui';c.fillText(money(p.volume?.h24),100,800);c.fillText(p.dexId||'Unknown',650,800);
- c.strokeStyle='#10464c';c.strokeRect(65,900,1070,350);
- c.fillStyle='#edfffa';c.font='bold 34px system-ui';c.fillText('RISK STATUS',100,970);
- c.fillStyle='#ffd166';c.font='bold 32px system-ui';c.fillText('Heuristic / Not an audit',100,1030);
- c.fillStyle='#86aaaa';c.font='24px system-ui';c.fillText('Contract checks depend on available public data.',100,1100);
- c.fillText('Never share your seed phrase or private key.',100,1160);
- c.fillStyle='#19f39b';c.font='22px system-ui';c.fillText(new Date().toLocaleString(),100,1370);
- c.fillStyle='#86aaaa';c.fillText('GUARDYXIS • Guard the good trades, not just the hype',100,1420);
- const a=document.createElement('a');a.download='guardyxis-receipt-'+(b.symbol||'token')+'.png';a.href=canvas.toDataURL('image/png');a.click();
-}
-async function refreshTrending(){
- try{await loadTrending();if($('refreshState'))$('refreshState').textContent='• Updated '+new Date().toLocaleTimeString();}
- catch(e){if($('refreshState'))$('refreshState').textContent='• Refresh failed';}
-}
-
-$('search').addEventListener('keydown',e=>{if(e.key==='Enter')searchToken()});$('mint').addEventListener('keydown',e=>{if(e.key==='Enter')scan()});loadTrending();
-if(!refreshTimer)refreshTimer=setInterval(refreshTrending,30000);
-
-function applyTheme(){
-  const theme=localStorage.getItem('gx_theme')||'dark';
-  document.body.classList.toggle('light',theme==='light');
-  const s=$('accountStatus');if(s){const a=JSON.parse(localStorage.getItem('gx_account')||'null');s.textContent=a?'Signed in locally as '+a.email:'Not signed in';}
-}
-function toggleTheme(){const next=document.body.classList.contains('light')?'dark':'light';localStorage.setItem('gx_theme',next);applyTheme();}
-let refreshTimer=null;
-function setAutoRefresh(enabled){
-  localStorage.setItem('gx_auto_refresh',enabled?'1':'0');
-  if(refreshTimer)clearInterval(refreshTimer);
-  if(enabled)refreshTimer=setInterval(refreshTrending,30000);
-}
-function clearSavedData(){localStorage.removeItem('gx_reports');localStorage.removeItem('gx_account');alert('Saved reports and account data cleared.');location.reload();}
-function openAuth(){$('authModal').classList.add('open');$('authStatus').textContent='';}
-function closeAuth(){$('authModal').classList.remove('open');}
-function localAccount(){
-  const name=$('authName').value.trim(),email=$('authEmail').value.trim();
-  if(!name||!/^[^@\s]+@gmail\.com$/i.test(email)){ $('authStatus').textContent='Enter your name and a valid Gmail address.';return; }
-  localStorage.setItem('gx_account',JSON.stringify({name,email,createdAt:new Date().toISOString()}));
-  $('authStatus').textContent='Local account created. Google OAuth setup is still required for real account authentication.';
-  applyTheme();
-}
-function continueWithGoogle(){
-  $('authStatus').textContent='Google sign-in needs your own OAuth/Firebase client configuration; this static build does not collect passwords or private keys.';
-}
-
-applyTheme();setAutoRefresh(localStorage.getItem('gx_auto_refresh')!=='0');
+const pages=[["dashboard","⌂","Dashboard"],["scanner","⌕","Scan Token"],["trending","♨","Trending"],["charts","▥","Charts"],["risk","◈","Risk Analysis"],["holders","◎","Holders"],["watchlist","☆","Watchlist"],["alerts","♧","Alerts"],["reports","▤","Reports"],["settings","⚙","Settings"]],S={selected:null,watch:JSON.parse(localStorage.gxwatch||"[]")},$=x=>document.getElementById(x),esc=x=>String(x??"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c])),money=x=>Number.isFinite(+x)?(+x).toLocaleString("en-US",{style:"currency",currency:"USD",maximumFractionDigits:+x<1?8:2}):"Unknown",pct=x=>Number.isFinite(+x)?(+x).toFixed(2)+"%":"Unknown";
+function nav(id){$(id).innerHTML=pages.map(x=>`<button data-go="${x[0]}">${x[1]} ${x[2]}</button>`).join("")}function go(id){document.querySelectorAll(".page").forEach(x=>x.classList.toggle("active",x.id===id));document.querySelectorAll("[data-go]").forEach(x=>x.classList.toggle("active",x.dataset.go===id));if(id==="charts"&&S.selected)chart();if(id==="watchlist")renderWatch()}document.addEventListener("click",e=>{let b=e.target.closest("[data-go]");if(b)go(b.dataset.go)});
+async function get(u){let r=await fetch(u);if(!r.ok)throw Error("HTTP "+r.status);return r.json()}function norm(p){let a=p.attributes||{};return{pool:p.id,name:a.base_token_name||a.name||"Unknown",symbol:a.base_token_symbol||"?",address:(p.relationships?.base_token?.data?.id||"").split("_").pop(),price:+a.base_token_price_usd||null,liquidity:+a.reserve_in_usd||null,volume:+a.volume_usd?.h24||null,marketCap:+a.market_cap_usd||null,fdv:+a.fdv||null,change:+a.price_change_percentage?.h24||null,dex:a.dex_id||"Unknown",created:a.pool_created_at||null}}function card(t){return`<article class="card token" data-pool="${esc(t.pool)}"><div class="tokenTop"><div class="name"><div class="coin">${esc(t.symbol[0]||"?")}</div><div><b>${esc(t.symbol)}</b><div class="mini">${esc(t.dex)}</div></div></div><span class="pill">${t.change==null?"—":(t.change>=0?"+":"")+t.change.toFixed(2)+"%"}</span></div><h3>${esc(t.name)}</h3><div class="price">${money(t.price)}</div><div class="mini">MC ${money(t.marketCap)}</div><div class="mini">Vol ${money(t.volume)} · Liq ${money(t.liquidity)}</div></article>`}
+async function trending(){for(let id of ["trends","dash"])$(id).innerHTML='<div class="card empty">Loading live data…</div>';try{let d=await get("https://api.geckoterminal.com/api/v2/networks/solana/trending_pools"),a=(d.data||[]).map(norm).slice(0,15);$("trends").innerHTML=a.map(card).join("");$("dash").innerHTML=a.slice(0,5).map(card).join("")}catch(e){$("trends").innerHTML=`<div class="card">${esc(e.message)}</div>`}}
+async function search(q){$("result").innerHTML='<div class="card empty">Scanning…</div>';try{let u=/^[1-9A-HJ-NP-Za-km-z]{32,44}$/.test(q)?`https://api.dexscreener.com/latest/dex/tokens/${q}`:`https://api.dexscreener.com/latest/dex/search?q=${encodeURIComponent(q)}`,d=await get(u),a=(d.pairs||[]).filter(x=>x.chainId==="solana").map(norm).sort((x,y)=>(y.liquidity||0)-(x.liquidity||0));if(!a.length)throw Error("No Solana pair found");select(a[0])}catch(e){$("result").innerHTML=`<div class="card"><b>Scan failed</b><p class="muted">${esc(e.message)}</p></div>`}}
+async function select(t){S.selected=t;localStorage.gxwatch=JSON.stringify(S.watch);render();security();chart()}async function security(){if(!S.selected?.address)return;try{let d=await get(`/api/intelligence/${S.selected.address}`);S.selected.sec=d;render();$("riskPanel").innerHTML=`<div class="stats"><div class="stat"><span class="mini">RugCheck score</span><b>${d.security.rugcheck.score??"Unknown"}/100</b></div><div class="stat"><span class="mini">Mint authority</span><b>${d.security.rugcheck.mintAuthorityActive?"⚠ Active":"Not active / unknown"}</b></div><div class="stat"><span class="mini">Freeze authority</span><b>${d.security.rugcheck.freezeAuthorityActive?"⚠ Active":"Not active / unknown"}</b></div></div><div>${(d.security.rugcheck.risks||[]).map(r=>`<div class="risk">⚠ <div><b>${esc(r.name)}</b><small class="mini">${esc(r.description||"Provider finding")}</small></div><span>${esc(r.level||"Reported")}</span></div>`).join("")||'<div class="empty">No specific findings returned.</div>'}</div>`;renderHolders(d)}catch(e){$("riskPanel").innerHTML=`<div class="empty">${esc(e.message)}</div>`}}
+function renderHolders(d){let h=d.holderIntelligence||{},rows=(h.topHolders||[]).slice(0,20).map(x=>`<tr><td>#${x.rank}</td><td>${esc(x.owner||x.address)}</td><td>${pct(x.pct)}</td><td>${x.insider?"⚠ Insider":"—"}</td></tr>`).join("");$("holderPanel").innerHTML=`<div class="grid4"><div class="card"><span class="mini">Top 1</span><div class="metric">${pct(h.top1Pct)}</div></div><div class="card"><span class="mini">Top 10</span><div class="metric">${pct(h.top10Pct)}</div></div><div class="card"><span class="mini">Top 20</span><div class="metric">${pct(h.top20Pct)}</div></div><div class="card"><span class="mini">Concentration</span><div class="metric">${esc(h.concentration||"Unknown")}</div></div></div><div class="card" style="margin-top:12px"><div class="table"><table><tr><th>Rank</th><th>Wallet</th><th>% Supply</th><th>Flag</th></tr>${rows||"<tr><td colspan=4>No holder data.</td></tr>"}</table></div></div>`}
+function render(){let t=S.selected;if(!t)return;$("result").innerHTML=`<div class="layout"><div class="card"><div class="name"><div class="coin">${esc(t.symbol[0])}</div><div><h2 style="margin:0">${esc(t.name)} <span class="pill">${esc(t.symbol)}</span></h2><span class="mini">Solana · ${esc(t.address||"")}</span></div></div><div class="stats">${[["Price",money(t.price)],["Market Cap",money(t.marketCap)],["24h Volume",money(t.volume)],["Liquidity",money(t.liquidity)],["FDV",money(t.fdv)],["24h Change",pct(t.change)],["DEX",esc(t.dex)],["Pool Created",t.created?new Date(t.created).toLocaleDateString():"Unknown"]].map(x=>`<div class="stat"><span class="mini">${x[0]}</span><b>${x[1]}</b></div>`).join("")}</div><div class="chart" id="mini"></div></div><div><div class="card"><h3>Security Snapshot</h3><div id="snap" class="empty">Loading…</div></div><div class="card" style="margin-top:12px"><h3>Holder Snapshot</h3><p class="mini">Top 10 concentration: ${pct(t.sec?.holderIntelligence?.top10Pct)}</p><button class="btn" data-go="holders">Full Holder Analysis →</button></div></div></div><div class="card" style="margin-top:12px"><h3>Market Details</h3><div class="table"><table><tr><th>Market Cap</th><th>FDV</th><th>Liquidity</th><th>Volume</th><th>Price Change</th></tr><tr><td>${money(t.marketCap)}</td><td>${money(t.fdv)}</td><td>${money(t.liquidity)}</td><td>${money(t.volume)}</td><td>${pct(t.change)}</td></tr></table></div></div>`;if(t.sec){$("snap").innerHTML=`<div class="risk">🛡 <div><b>RugCheck</b><small class="mini">Provider score</small></div><span>${t.sec.security.rugcheck.score??"Unknown"}/100</span></div>`}}
+async function chart(){let t=S.selected;if(!t)return;$("chartMeta").innerHTML=`<b>${esc(t.name)}</b> · ${esc(t.symbol)} · ${money(t.price)} · MC ${money(t.marketCap)}`;try{let id=t.pool.split("_").pop(),d=await get(`https://api.geckoterminal.com/api/v2/networks/solana/pools/${id}/ohlcv/hour?aggregate=1&limit=80&currency=usd`),r=(d.data?.attributes?.ohlcv_list||[]).reverse();draw(r)}catch{$("chart").innerHTML='<div class="empty">Chart unavailable.</div>';if($("mini"))$("mini").innerHTML='<div class="empty">Chart unavailable.</div>'}}
+function draw(r){if(!r.length)return;let w=1000,h=340,p=30,v=r.flatMap(x=>[+x[2],+x[3]]),lo=Math.min(...v),hi=Math.max(...v),ra=hi-lo||1,x=i=>p+i*(w-2*p)/(r.length-1),y=z=>h-p-(z-lo)/ra*(h-2*p);let s='<svg viewBox="0 0 1000 340">';r.forEach((z,i)=>{let o=+z[1],H=+z[2],L=+z[3],c=+z[4],xx=x(i),co=c>=o?"#12e6c0":"#ff5d79";s+=`<line x1="${xx}" y1="${y(H)}" x2="${xx}" y2="${y(L)}" stroke="${co}" stroke-width="2"/><rect x="${xx-3}" y="${Math.min(y(o),y(c))}" width="6" height="${Math.max(1,Math.abs(y(o)-y(c)))}" fill="${co}"/>`});s+='</svg>';$("chart").innerHTML=s;if($("mini"))$("mini").innerHTML=s}
+function renderWatch(){$("watch").innerHTML=S.watch.length?S.watch.map(card).join(""):'<div class="card empty">No saved tokens.</div>'}
+document.addEventListener("click",e=>{let c=e.target.closest("[data-pool]");if(c){let p=c.dataset.pool;get("https://api.dexscreener.com/latest/dex/pairs/solana/"+p).then(d=>d.pair||d.pairs?.[0]).then(p=>p&&select(norm(p))).catch(()=>{})}});
+$("go").onclick=()=>{go("scanner");$("sq").value=$("q").value;search($("q").value)};$("scan").onclick=()=>search($("sq").value);$("refresh").onclick=trending;
+function init(){nav("nav");nav("mob");$("metrics").innerHTML=[["Tokens Scanned","Live"],["Watchlist",S.watch.length],["Security","RugCheck"],["Market Data","Live"]].map(x=>`<div class="card"><span class="mini">${x[0]}</span><div class="metric">${x[1]}</div></div>`).join("");trending()}init();
 </script></body></html>
