@@ -29,3 +29,12 @@ This build is a careful UI/interaction reconstruction of the supplied GUARDYXIS 
 The Google sign-in screen is a UI shell only. Production authentication must be connected to a real OAuth/Firebase/Google Identity configuration.
 
 Market/security providers can rate-limit or become unavailable. The interface therefore distinguishes live provider results from safe fallback demo values instead of pretending fallback data is live.
+
+
+## V15 changes
+- Navigation features now trigger their assigned data functions when opened.
+- Market search is proxied server-side through DexScreener.
+- Trending is proxied through GeckoTerminal.
+- OHLCV is fetched through GeckoTerminal and rendered as real candlestick/volume bars when available.
+- Security/risk and holder pages request RugCheck data and explicitly show when verified data is unavailable.
+- Mobile scan action buttons remain visible in the same Add to Watchlist → Share → Buy order as desktop.
