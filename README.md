@@ -1,47 +1,22 @@
-# GUARDYXIS V16 — Full Functional Build
+# GUARDYXIS Fresh Site
 
-This build extends the GUARDYXIS reference interface into an interactive dashboard where navigation and feature actions trigger their assigned data workflows.
+A clean, functional market-intelligence frontend using live DexScreener market endpoints. It deliberately does not invent trending tokens, user history, security results, or placeholder actions.
 
-## Functional areas
-- Dashboard
-- Solana token search / scanner
-- Live market search through the GUARDYXIS backend
-- Trending token retrieval through GeckoTerminal
-- Real OHLCV retrieval and canvas candlestick rendering
-- Risk/security retrieval through RugCheck
-- Advanced holder retrieval and concentration display
-- Evidence-backed Trust Score engine
-- Watchlist persistence
-- Alerts
-- Reports / print-to-PDF
-- Settings and data export
-- Account / Google OAuth interface shell
-- Desktop + mobile action ordering
+## Included working features
+- Live token/pair search
+- Live trending discovery from DexScreener boosts
+- Pair detail pages
+- Live price/24h change/volume/liquidity/transactions
+- Watchlist persisted in localStorage
+- Functional alerts storage
+- Dark/light theme persistence
+- Refresh preference
+- Responsive mobile layout
+- GUARDYXIS trust-score presentation with explicit market-data limitations
+- Error/empty/loading states
 
-## Trust Score
-The score is a weighted evidence model:
-- Contract Security: 25%
-- Live Swap Activity: 20%
-- Liquidity Depth: 20%
-- Holder Concentration: 15%
-- Official Announcements: 10%
-- Status Conflicts: 10%
+## Security integration
+The browser must not contain a private security API key. The next production step is to connect the Netlify serverless function layer to GoPlus using an environment variable, then replace the estimated contract/holder portions of the score with verified security/holder evidence.
 
-Only factors with provider evidence contribute to the current weighted result. Unknown evidence is shown as unknown rather than being silently treated as safe.
-
-Bands:
-- 90–100 Excellent
-- 75–89 Good
-- 60–74 Fair
-- 40–59 Poor
-- 0–39 Very Poor
-
-## Run
-Node.js 18+:
-1. `npm install`
-2. `npm start`
-3. Open `http://localhost:8787`
-
-The app uses server-side provider routing so browser CORS issues are reduced. Provider outages/rate limits are surfaced rather than represented as live data.
-
-Google authentication remains an OAuth UI shell until real Google/Firebase credentials are configured.
+## Deploy
+Upload the folder to Netlify or GitHub Pages. For the server-side security layer, use Netlify Functions and configure the provider secret in Netlify environment variables.
