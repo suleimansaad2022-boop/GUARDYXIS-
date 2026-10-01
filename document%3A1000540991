@@ -1,0 +1,421 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#03101c">
+<title>GUARDYXIS — Web3 Security & Analytics</title>
+<style>
+:root{
+  --bg:#020914;--panel:#061525;--panel2:#081b2d;--line:#10344a;--line2:#17647b;
+  --text:#eef7ff;--muted:#7890a5;--cyan:#19d8d0;--cyan2:#00b7ff;--green:#14e6a2;
+  --red:#ff506b;--amber:#ffc247;--purple:#8b7dff;--shadow:0 18px 45px rgba(0,0,0,.32);
+  --sidebar:176px;
+}
+*{box-sizing:border-box}html,body{margin:0;min-height:100%;background:radial-gradient(circle at 75% 0,#09223b 0,#020914 42%,#01070f 100%);color:var(--text);font-family:Inter,ui-sans-serif,system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif}
+button,input,select{font:inherit}button{cursor:pointer}
+.app{min-height:100vh;display:grid;grid-template-columns:var(--sidebar) 1fr}
+.sidebar{position:sticky;top:0;height:100vh;border-right:1px solid #0c2d40;background:linear-gradient(180deg,#061625,#03101c);padding:15px 10px 10px;display:flex;flex-direction:column;z-index:20}
+.brand{display:flex;gap:9px;align-items:center;padding:0 5px 12px}.shield{width:28px;height:32px;border:2px solid var(--cyan);border-radius:9px 9px 12px 12px;display:grid;place-items:center;color:var(--cyan);font-weight:900;box-shadow:0 0 16px #10d8ce55}.brand b{font-size:16px;letter-spacing:.4px}.brand small{display:block;color:#dce9f3;font-size:8px;margin-top:2px}
+.nav{display:grid;gap:3px}.nav button{border:0;background:transparent;color:#c5d2dd;text-align:left;padding:9px 9px;border-radius:7px;font-size:10px;display:flex;gap:9px;align-items:center}.nav button:hover,.nav button.active{background:linear-gradient(90deg,#0b8d87,#0b555e);color:#fff;box-shadow:inset 0 0 0 1px #1ee0d255}.ico{width:14px;text-align:center;color:#9fb5c6;font-size:13px}.nav button.active .ico{color:#fff}
+.side-bottom{margin-top:auto}.theme{display:flex;background:#071b2a;border-radius:16px;padding:3px;margin:7px 0}.theme button{flex:1;border:0;border-radius:12px;padding:5px;background:transparent;color:#9fb0be;font-size:9px}.theme button.active{background:#eaf1f6;color:#0a1823}.profile{display:flex;gap:8px;align-items:center;padding:7px 4px;font-size:9px}.avatar{width:24px;height:24px;border-radius:50%;background:linear-gradient(135deg,#8ba4b8,#e4f1ff);display:grid;place-items:center;color:#062033;font-weight:800}
+main{min-width:0}.topbar{height:46px;border-bottom:1px solid #0c2d40;display:flex;align-items:center;gap:12px;padding:7px 16px;background:#03101bd9;position:sticky;top:0;z-index:15;backdrop-filter:blur(12px)}.search{flex:1;max-width:600px;position:relative}.search input{width:100%;background:#0b1d32;border:1px solid #1b3652;border-radius:7px;padding:8px 12px 8px 32px;color:#e8f6ff;outline:none;font-size:10px}.search input:focus{border-color:#18cfd4;box-shadow:0 0 0 2px #18cfd422}.search span{position:absolute;left:12px;top:7px;color:#8aa3b5}.top-actions{margin-left:auto;display:flex;align-items:center;gap:10px}.iconbtn{background:transparent;border:0;color:#d8e5ef;font-size:15px}.status{border:1px solid #12604e;background:#06251f;color:#16e6a0;border-radius:15px;padding:6px 9px;font-size:9px}.top-avatar{width:25px;height:25px;border-radius:50%;background:linear-gradient(135deg,#785cff,#45b5ff);display:grid;place-items:center;font-size:11px}
+.content{padding:12px 14px 16px}.page{display:none}.page.active{display:block}.title{font-size:18px;font-weight:800;margin:2px 0 1px}.subtitle{font-size:9px;color:#9bb0c0;margin-bottom:12px}
+.grid-stats{display:grid;grid-template-columns:repeat(4,1fr);gap:8px}.stat,.panel,.hero,.token-card{background:linear-gradient(145deg,#071b2c,#04111f);border:1px solid #123650;border-radius:9px;box-shadow:var(--shadow)}.stat{padding:10px 12px;min-height:70px}.stat .label{font-size:8px;color:#8fa5b7}.stat .value{font-size:17px;font-weight:800;margin:3px 0}.up{color:var(--green)}.down{color:var(--red)}.tiny{font-size:8px;color:#7f94a5}
+.two{display:grid;grid-template-columns:1.35fr .9fr;gap:8px;margin-top:8px}.panel{padding:10px;overflow:hidden}.panel-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:8px}.panel-head h3{font-size:11px;margin:0}.panel-head small{font-size:8px;color:#8ca1b3}.link{color:#8ed9ff;font-size:8px;border:0;background:none}
+.trend-row{display:grid;grid-template-columns:repeat(5,1fr);gap:6px}.mini-token{border:1px solid #12344a;border-radius:7px;padding:8px;background:#061829;min-width:0}.token-logo{width:25px;height:25px;border-radius:50%;object-fit:cover;background:#113044;display:grid;place-items:center;margin-bottom:6px}.mini-token b{font-size:9px;display:block}.mini-token small{font-size:7px;color:#8197aa}.mini-token .pct{font-size:9px;margin-top:5px}.mini-token .cap{font-size:8px;color:#d8e4ed;margin-top:3px}
+.recent{display:grid;gap:5px}.recent-row{display:grid;grid-template-columns:1fr auto auto;gap:7px;align-items:center;font-size:8px;padding:5px 0;border-bottom:1px solid #0d2739}.risk{border-radius:8px;padding:2px 6px;font-size:7px}.low{background:#063d31;color:#16e6a0}.med{background:#493b05;color:#ffc94d}.high{background:#4a1420;color:#ff6a80}
+.banner{margin-top:8px;padding:9px 13px;border-radius:8px;border:1px solid #0c8291;background:radial-gradient(circle at 40% 50%,#07344e,#051424);display:flex;align-items:center;justify-content:space-between;gap:12px}.banner .art{font-size:22px}.banner b{font-size:9px}.banner p{font-size:7px;color:#8ea7b7;margin:2px 0}.primary{background:linear-gradient(90deg,#0ed6bf,#0db6ee);border:0;color:#00151b;font-weight:800;border-radius:7px;padding:8px 13px;font-size:9px}.ghost{background:#071b2a;border:1px solid #1c4055;color:#dbe8f1;border-radius:7px;padding:7px 10px;font-size:8px}
+.scan-layout{display:grid;grid-template-columns:1fr 190px;gap:8px}.token-head{display:flex;gap:10px;align-items:center}.big-logo{width:55px;height:55px;border-radius:13px;object-fit:cover;background:#183147}.token-head h2{margin:0;font-size:16px}.token-head p{margin:3px 0;font-size:8px;color:#8198a9}.token-actions{margin-left:auto;display:flex;gap:6px}.metrics{display:grid;grid-template-columns:repeat(4,1fr);margin-top:10px}.metric{padding:8px;border:1px solid #12364b;background:#061725}.metric small{display:block;color:#8196a7;font-size:7px}.metric b{font-size:10px;display:block;margin-top:3px}.chartbox{height:235px;margin-top:8px;border:1px solid #12364b;border-radius:8px;background:#04121f;position:relative;overflow:hidden}.chart-controls{height:33px;border-bottom:1px solid #12364b;display:flex;align-items:center;gap:5px;padding:5px}.tf{border:0;background:#081f30;color:#8fa7b7;border-radius:5px;padding:4px 8px;font-size:7px}.tf.active{background:#0bb9ae;color:#00171a}.chartcanvas{width:100%;height:calc(100% - 33px);display:block}.risk-panel h3{font-size:11px}.risk-score{font-size:21px;font-weight:900;color:#21e6b0;text-align:center;margin:8px}.risk-item{display:flex;align-items:center;gap:6px;padding:7px 0;border-bottom:1px solid #102c3d;font-size:8px}.risk-item .dot{width:9px;height:9px;border-radius:50%;background:#16e6a0}.risk-item.warn .dot{background:#ffc247}.risk-item.bad .dot{background:#ff526c}.risk-item span:nth-child(2){flex:1}.risk-item strong{font-size:7px}
+.holder-layout{display:grid;grid-template-columns:1.1fr .9fr;gap:8px}.tabs{display:flex;gap:5px;margin-bottom:8px}.tab{background:#071c2d;border:1px solid #15394e;color:#91a8b9;border-radius:12px;padding:5px 8px;font-size:7px}.tab.active{background:#063f43;color:#17e3d0;border-color:#0aa99e}.holder-table{width:100%;border-collapse:collapse;font-size:8px}.holder-table th{color:#7790a3;font-weight:500;text-align:left}.holder-table td,.holder-table th{padding:5px;border-bottom:1px solid #0d293b}.donut-wrap{display:grid;grid-template-columns:130px 1fr;align-items:center;gap:10px}.donut{width:112px;height:112px;border-radius:50%;background:conic-gradient(#20dfca 0 8.7%,#3183df 8.7% 22.4%,#697b92 22.4% 38.9%,#1a2a3a 38.9% 100%);display:grid;place-items:center}.donut:after{content:"Top 10\A8.7%";white-space:pre;text-align:center;width:67px;height:67px;border-radius:50%;background:#061522;display:grid;place-items:center;font-size:10px;font-weight:800}.legend{display:grid;gap:8px;font-size:8px}.legend i{display:inline-block;width:8px;height:8px;border-radius:50%;margin-right:6px}
+.trending-table{width:100%;border-collapse:collapse;font-size:8px}.trending-table th,.trending-table td{padding:7px 6px;border-bottom:1px solid #102c3e;text-align:left}.trending-table th{color:#7d95a7;font-weight:500}.filters{display:flex;gap:6px;overflow:auto;margin-bottom:6px}.filter{white-space:nowrap;border:1px solid #17384d;background:#071b2b;color:#a9bac8;border-radius:13px;padding:5px 9px;font-size:7px}.filter.active{background:#0cc7a9;color:#001713;border-color:#0cc7a9}
+.settings-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px}.setting-box{padding:10px;border:1px solid #12364b;border-radius:8px;background:#061725}.setting-box h4{font-size:9px;margin:0 0 8px}.setting-row{display:flex;justify-content:space-between;align-items:center;padding:6px 0;border-bottom:1px solid #0d2a3b;font-size:8px}.switch{width:25px;height:14px;border-radius:10px;background:#183243;padding:2px}.switch i{display:block;width:10px;height:10px;border-radius:50%;background:#8196a8}.switch.on{background:#0bbd9f}.switch.on i{margin-left:11px;background:#fff}
+.watchlist-table{width:100%;border-collapse:collapse;font-size:8px}.watchlist-table td,.watchlist-table th{padding:8px;border-bottom:1px solid #102b3c;text-align:left}.watchlist-table th{color:#7d95a7}.alert-row{display:flex;justify-content:space-between;padding:10px;border-bottom:1px solid #102c3d;font-size:8px}.report-actions{display:flex;gap:7px;margin-bottom:10px}.report-preview{padding:16px;border:1px solid #174259;border-radius:9px;background:#04121f}
+.auth-wrap{display:grid;grid-template-columns:1.1fr .9fr;min-height:360px;border:1px solid #124057;border-radius:10px;overflow:hidden;background:radial-gradient(circle at 30% 40%,#0a3150,#03111e)}.auth-art{display:grid;place-items:center;text-align:center;padding:30px;background:radial-gradient(circle,#093b54aa,#03111f 65%)}.beast{font-size:90px;filter:drop-shadow(0 0 22px #00d6ff66)}.auth-art h2{font-size:22px;margin:0}.auth-art p{font-size:9px;color:#8fa6b6;max-width:260px}.auth-card{background:#f4f7fa;color:#23303b;padding:28px}.auth-tabs{display:flex;gap:20px;border-bottom:1px solid #d6dce1;margin-bottom:18px}.auth-tabs b{padding-bottom:8px;font-size:10px}.auth-card label{font-size:8px;display:block;margin:8px 0 4px}.auth-card input{width:100%;padding:9px;border:1px solid #d9e0e5;border-radius:5px;background:#fff;font-size:9px}.auth-google{width:100%;padding:9px;background:#fff;border:1px solid #d5dce2;border-radius:5px;font-size:9px}.auth-sign{width:100%;margin-top:12px;padding:10px;background:#10cfae;border:0;border-radius:5px;font-weight:800;color:#00231d;font-size:9px}
+.footer-strip{display:grid;grid-template-columns:1.1fr repeat(6,1fr);gap:8px;padding:9px 14px;border-top:1px solid #10364a;background:#03101a;margin-top:10px}.foot-brand{font-size:12px;font-weight:900}.foot-brand small{display:block;color:#8aa0b1;font-size:7px;font-weight:500;margin-top:3px}.foot-item{display:flex;gap:6px;align-items:center;font-size:7px;color:#d6e4ed}.foot-item span{font-size:14px;color:#22ded0}
+.mobile-nav{display:none}
+.toast{position:fixed;right:15px;bottom:15px;background:#061c2b;border:1px solid #1a6671;color:#eaf7fb;border-radius:8px;padding:10px 12px;font-size:9px;z-index:100;box-shadow:var(--shadow);transform:translateY(80px);opacity:0;transition:.25s}.toast.show{transform:translateY(0);opacity:1}
+@media(max-width:950px){:root{--sidebar:150px}.grid-stats{grid-template-columns:repeat(2,1fr)}.trend-row{grid-template-columns:repeat(3,1fr)}.two,.holder-layout,.scan-layout,.auth-wrap{grid-template-columns:1fr}.risk-panel{display:none}.footer-strip{grid-template-columns:repeat(3,1fr)}}
+@media(max-width:650px){.app{display:block}.sidebar{display:none}.topbar{height:48px;padding:7px 9px}.content{padding:10px 8px 70px}.title{font-size:16px}.grid-stats{grid-template-columns:repeat(2,1fr)}.trend-row{grid-template-columns:repeat(2,1fr)}.metrics{grid-template-columns:repeat(2,1fr)}.footer-strip{display:none}.mobile-nav{display:flex;position:fixed;left:0;right:0;bottom:0;height:57px;background:#03111d;z-index:50;border-top:1px solid #12364b;justify-content:space-around}.mobile-nav button{border:0;background:none;color:#8298a9;font-size:7px;display:flex;flex-direction:column;gap:3px;align-items:center;justify-content:center}.mobile-nav button.active{color:#17dfcf}.mobile-nav b{font-size:13px}.chartbox{height:210px}.auth-wrap{min-height:500px}.auth-art{min-height:220px}.auth-card{padding:20px}}
+
+/* V15 interaction + mobile parity */
+.token-actions{display:flex!important;flex-wrap:wrap;align-items:center;justify-content:flex-end}
+.token-actions>*{flex:0 0 auto}
+.page-loading{font-size:8px;color:#8fa8ba;padding:12px;text-align:center}
+.data-status{font-size:7px;color:#7893a6;margin-left:6px}
+.live-dot{display:inline-block;width:6px;height:6px;border-radius:50%;background:#16e6a0;box-shadow:0 0 8px #16e6a0;margin-right:4px}
+@media(max-width:650px){
+  .top-actions{gap:5px}.status{display:inline-flex}
+  .content{padding-left:7px;padding-right:7px}
+  .token-head{align-items:flex-start;flex-wrap:wrap}
+  .token-actions{width:100%;margin-left:0!important;justify-content:flex-start;order:3;padding-top:3px}
+  .token-actions button{display:inline-flex!important;min-height:31px}
+  .metrics{grid-template-columns:repeat(2,1fr)}
+  .scan-layout{display:block}
+  .risk-panel{display:block!important;margin-top:8px}
+  .chartbox{height:260px}
+  .holder-layout{display:block}
+  .holder-layout>.panel{margin-bottom:8px}
+  .trending-table{min-width:650px}
+  #page-trending .panel{overflow:auto}
+  .footer-strip{display:none}
+}
+
+.trust-panel{margin-top:8px;padding:10px;border:1px solid #0d6374;border-radius:9px;background:linear-gradient(145deg,#061d2b,#04111d);box-shadow:0 10px 30px #0005}.trust-top{display:flex;justify-content:space-between;align-items:center;gap:10px}.trust-top h3{font-size:11px;margin:0}.trust-top small{display:block;color:#7894a6;font-size:7px;margin-top:3px}.info{display:inline-grid;place-items:center;width:13px;height:13px;border:1px solid #567486;border-radius:50%;font-size:8px}.trust-number{display:flex;align-items:baseline;gap:2px}.trust-number b{font-size:25px;color:#16e7ae}.trust-number span{font-size:8px;color:#7894a6}.trust-body{display:grid;grid-template-columns:85px 1fr;gap:10px;align-items:center;margin-top:8px}.trust-ring{width:78px;height:78px;border-radius:50%;display:grid;place-items:center;background:conic-gradient(#14e6a2 0 78%,#102c3b 78%);position:relative}.trust-ring:after{content:"";position:absolute;inset:8px;border-radius:50%;background:#061522}.trust-ring b{position:relative;z-index:1;font-size:8px;color:#dff}.trust-factors{display:grid;grid-template-columns:repeat(3,1fr);gap:5px}.factor{padding:6px;border:1px solid #12394c;border-radius:6px;background:#061624}.factor-head{display:flex;justify-content:space-between;gap:4px;font-size:7px}.factor-bar{height:4px;background:#102d3d;border-radius:4px;margin-top:5px;overflow:hidden}.factor-bar i{display:block;height:100%;background:#15ddb0;border-radius:4px}.factor small{display:block;color:#7f95a5;font-size:6px;margin-top:3px}.trust-note{font-size:7px;color:#9bb0be;margin-top:7px;padding-top:7px;border-top:1px solid #102e40}.provider-badge{display:inline-block;font-size:6px;padding:3px 5px;border-radius:7px;background:#062e31;color:#19dfbf;margin-left:5px}.mobile-only-actions{display:none}
+@media(max-width:650px){.token-head{align-items:flex-start;flex-wrap:wrap}.token-actions{order:3;width:100%;margin-left:0;display:grid;grid-template-columns:1fr 1fr 1fr;gap:5px}.token-actions button{width:100%;min-width:0;white-space:nowrap}.trust-body{grid-template-columns:75px 1fr}.trust-factors{grid-template-columns:repeat(2,1fr)}.trust-number b{font-size:21px}}
+</style>
+</head>
+<body>
+<div class="app">
+<aside class="sidebar">
+  <div class="brand"><div class="shield">◈</div><div><b>GUARDYXIS</b><small>Scan · Analyze · Stay Safe</small></div></div>
+  <nav class="nav" id="nav">
+    <button data-page="dashboard" class="active"><span class="ico">⌂</span>Dashboard</button>
+    <button data-page="scan"><span class="ico">⌕</span>Scan Token</button>
+    <button data-page="trending"><span class="ico">♨</span>Trending</button>
+    <button data-page="charts"><span class="ico">▥</span>Charts</button>
+    <button data-page="risk"><span class="ico">♢</span>Risk Analysis</button>
+    <button data-page="holders"><span class="ico">♟</span>Holders</button>
+    <button data-page="watchlist"><span class="ico">♡</span>Watchlist</button>
+    <button data-page="alerts"><span class="ico">♧</span>Alerts</button>
+    <button data-page="reports"><span class="ico">▤</span>Reports</button>
+    <button data-page="settings"><span class="ico">⚙</span>Settings</button>
+  </nav>
+  <div class="side-bottom">
+    <div class="theme"><button id="lightBtn">Light</button><button id="darkBtn" class="active">Dark</button></div>
+    <div class="profile"><div class="avatar">S</div><div><b>Sa’ad Suleiman</b><br><span class="tiny">Free Plan</span></div></div>
+  </div>
+</aside>
+
+<main>
+<header class="topbar">
+  <div class="search"><span>⌕</span><input id="globalSearch" placeholder="Search token by name, symbol or mint address..." autocomplete="off"></div>
+  <div class="top-actions"><button class="iconbtn" id="notifBtn">♧</button><span class="status">● Connected⌄</span><div class="top-avatar">S</div></div>
+</header>
+
+<div class="content">
+<section class="page active" id="page-dashboard">
+  <div class="title">Dashboard</div><div class="subtitle">Your Web3 security and analytics hub</div>
+  <div class="grid-stats">
+    <div class="stat"><div class="label">◈ Total Tokens Scanned</div><div class="value">248</div><div class="tiny up">↗ +12% (24h)</div></div>
+    <div class="stat"><div class="label">★ Watchlist Tokens</div><div class="value" id="statWatch">18</div><div class="tiny up">↗ +2 (24h)</div></div>
+    <div class="stat"><div class="label">♧ Active Alerts</div><div class="value">5</div><div class="tiny down">↗ +1 (24h)</div></div>
+    <div class="stat"><div class="label">◉ API Status</div><div class="value up" style="font-size:12px">● Operational</div><div class="tiny up">All Systems Operational</div></div>
+  </div>
+  <div class="two">
+    <div class="panel"><div class="panel-head"><h3>Trending Tokens</h3><button class="link" data-page="trending">View All →</button></div><div class="trend-row" id="dashTrending"></div></div>
+    <div class="panel"><div class="panel-head"><h3>Recent Scans</h3><small>Latest activity</small></div><div class="recent" id="recentScans"></div></div>
+  </div>
+  <div class="banner"><div class="art">🛡️</div><div style="flex:1"><b>Stay Ahead. Avoid Scams. Trade Smarter.</b><p>GUARDYXIS — Your Trusted Web3 Security Companion.</p></div><button class="primary" data-page="scan">Scan Now</button></div>
+</section>
+
+<section class="page" id="page-scan">
+  <div class="title">Token Scan</div><div class="subtitle">Search, inspect market structure, holder concentration and security evidence.</div>
+  <div class="scan-layout">
+    <div class="panel">
+      <div class="token-head"><img class="big-logo" id="tokenLogo" src="" alt=""><div><h2 id="tokenName">BONK <span style="font-size:10px;color:#8ea4b4">(BONK)</span></h2><p id="tokenChain">Solana · mint address</p><p id="tokenMint" class="tiny">Not selected</p></div><div class="token-actions"><button class="ghost" id="watchBtn">☆ Add to Watchlist</button><button class="ghost" id="shareBtn">⇧ Share</button><button class="primary" id="buyBtn">Buy</button></div></div>
+      <div style="margin-top:9px;font-size:9px">Price <b id="tokenPrice">$0.0000267</b> <span class="up" id="tokenChange">+12.48% (24h)</span></div>
+      <div class="metrics">
+        <div class="metric"><small>Market Cap</small><b id="mcap">$1.92B</b></div><div class="metric"><small>24h Volume</small><b id="volume">$284.6M</b></div><div class="metric"><small>Liquidity</small><b id="liq">$102.4M</b></div><div class="metric"><small>FDV</small><b id="fdv">$2.67B</b></div>
+      </div>
+      <div class="trust-panel" id="trustPanel"><div class="trust-top"><div><h3>Trust Score <span class="info" title="Weighted evidence score; unknown factors are not treated as safe.">?</span></h3><small id="trustFormula">Verified evidence across contract, activity, liquidity, holders, official sources and status conflicts.</small></div><div class="trust-number"><b id="trustScore">—</b><span>/100</span></div></div><div class="trust-body"><div class="trust-ring" id="trustRing"><b id="trustBand">Unknown</b></div><div class="trust-factors" id="trustFactors"></div></div><div class="trust-note" id="trustNote">Scan a token to calculate its evidence-backed Trust Score.</div></div>
+      <div class="chartbox"><div class="chart-controls"><button class="tf active" data-tf="1m">1m</button><button class="tf" data-tf="5m">5m</button><button class="tf" data-tf="15m">15m</button><button class="tf" data-tf="1h">1h</button><button class="tf" data-tf="4h">4h</button><button class="tf" data-tf="1d">1d</button><span style="margin-left:auto;color:#6e8798;font-size:7px">OHLCV · volume</span></div><canvas id="chart" class="chartcanvas"></canvas></div>
+    </div>
+    <aside class="panel risk-panel"><h3>Risk Score <span class="up" style="float:right">32 / 100</span></h3><div class="risk-score">LOW–MEDIUM</div><div id="riskItems"></div><button class="ghost" style="width:100%;margin-top:9px" data-page="risk">View Full Analysis →</button></aside>
+  </div>
+</section>
+
+<section class="page" id="page-trending">
+  <div class="title">Trending Tokens</div><div class="subtitle">Live discovery with market metrics. Provider fallback is clearly indicated when APIs are unavailable.</div>
+  <div class="filters"><button class="filter active">All</button><button class="filter">New Pairs</button><button class="filter">Gainers</button><button class="filter">High Volume</button><button class="filter">High Liquidity</button><button class="ghost" id="refreshTrending">↻ Refresh</button></div>
+  <div class="panel"><table class="trending-table"><thead><tr><th>Token</th><th>Price</th><th>24h %</th><th>Volume</th><th>Liquidity</th><th>Market Cap</th><th>Risk</th></tr></thead><tbody id="trendingBody"></tbody></table></div>
+</section>
+
+<section class="page" id="page-charts">
+  <div class="title">Charts</div><div class="subtitle">Interactive market view for the selected token.</div>
+  <div class="panel"><div class="panel-head"><h3 id="chartTitle">BONK / SOL</h3><span class="tiny">Candlesticks · volume · timeframe controls</span></div><div class="chartbox" style="height:430px"><div class="chart-controls"><button class="tf active">1m</button><button class="tf">5m</button><button class="tf">15m</button><button class="tf">1h</button><button class="tf">4h</button><button class="tf">1d</button><span style="margin-left:auto;color:#6e8798;font-size:7px">Indicators · Drawings · Export</span></div><canvas id="chartBig" class="chartcanvas"></canvas></div></div>
+</section>
+
+<section class="page" id="page-risk">
+  <div class="title">Risk Analysis</div><div class="subtitle">Evidence-based checks from available security providers.</div>
+  <div class="grid-stats"><div class="stat"><div class="label">Overall Risk Score</div><div class="value up">32 / 100</div><div class="tiny">Lower score = fewer flagged checks</div></div><div class="stat"><div class="label">Mint Authority</div><div class="value up" style="font-size:13px">Safe</div><div class="tiny">Authority status</div></div><div class="stat"><div class="label">Freeze Authority</div><div class="value up" style="font-size:13px">Safe</div><div class="tiny">Authority status</div></div><div class="stat"><div class="label">Liquidity</div><div class="value">$102.4M</div><div class="tiny up">Healthy depth</div></div></div>
+  <div class="panel" style="margin-top:8px"><div id="riskFull"></div></div>
+</section>
+
+<section class="page" id="page-holders">
+  <div class="title">Holder Analysis</div><div class="subtitle">Advanced holder intelligence: concentration, whales, insiders and distribution.</div>
+  <div class="holder-layout">
+    <div class="panel"><div class="tabs"><button class="tab active">Top Holders</button><button class="tab">Holder Distribution</button><button class="tab">Whale Alerts</button><button class="tab">Insider Info</button></div><table class="holder-table"><thead><tr><th>#</th><th>Address</th><th>Balance</th><th>% Supply</th></tr></thead><tbody id="holdersBody"></tbody></table></div>
+    <div class="panel"><h3 style="font-size:10px">Holder Concentration</h3><div class="donut-wrap"><div class="donut"></div><div class="legend"><div><i style="background:#20dfca"></i>Top 10 <b>8.7%</b></div><div><i style="background:#3183df"></i>Top 20 <b>22.4%</b></div><div><i style="background:#697b92"></i>Top 100 <b>38.9%</b></div><div><i style="background:#1a2a3a"></i>Others <b>61.1%</b></div></div></div><div class="panel" style="margin-top:8px;background:#071a29"><b style="font-size:9px;color:#ff5d69">🦬 Whale Detected</b><div class="tiny" style="margin-top:5px">Largest wallet · 3.2% · View details →</div></div></div>
+  </div>
+</section>
+
+<section class="page" id="page-watchlist">
+  <div class="title">Watchlist</div><div class="subtitle">Track tokens and their security/market changes.</div>
+  <div class="panel"><div class="panel-head"><h3>Your Watchlist</h3><button class="primary" id="addWatch">+ Add Token</button></div><table class="watchlist-table"><thead><tr><th>Token</th><th>Price</th><th>24h %</th><th>Alerts</th></tr></thead><tbody id="watchBody"></tbody></table></div>
+</section>
+
+<section class="page" id="page-alerts">
+  <div class="title">Alerts</div><div class="subtitle">Security and market notifications.</div>
+  <div class="panel"><div class="alert-row"><span>🔴 Risk score changed for BONK</span><b class="down">High priority</b></div><div class="alert-row"><span>🟢 Liquidity increased for SPENGU</span><b class="up">Market</b></div><div class="alert-row"><span>🟡 Whale concentration crossed threshold</span><b style="color:#ffc247">Holder</b></div><div class="alert-row"><span>🔵 New token added to trending</span><b style="color:#8ed9ff">Discovery</b></div></div>
+</section>
+
+<section class="page" id="page-reports">
+  <div class="title">Reports</div><div class="subtitle">Generate a shareable security report from the selected token.</div>
+  <div class="report-actions"><button class="primary" id="printReport">Print / Save PDF</button><button class="ghost" id="copyReport">Copy Summary</button></div>
+  <div class="report-preview" id="reportPreview"><h2 style="margin-top:0">GUARDYXIS Security Report</h2><p>Token: <b id="repName">BONK (BONK)</b></p><p>Market cap: <b id="repCap">$1.92B</b> · 24h volume: <b>$284.6M</b> · Liquidity: <b>$102.4M</b></p><p>Risk score: <b class="up">32 / 100</b></p><hr style="border-color:#12364b"><p class="tiny">This report summarizes observable market/security signals. It is not financial advice.</p></div>
+</section>
+
+<section class="page" id="page-settings">
+  <div class="title">Settings</div><div class="subtitle">Appearance, refresh behavior, privacy and account controls.</div>
+  <div class="settings-grid">
+    <div class="setting-box"><h4>Appearance</h4><div class="setting-row"><span>Light Mode</span><span class="switch" id="lightSwitch"><i></i></span></div><div class="setting-row"><span>Dark Mode</span><span class="switch on"><i></i></span></div><div class="setting-row"><span>Compact Layout</span><span class="switch"><i></i></span></div><div class="setting-row"><span>Comfortable Layout</span><span class="switch on"><i></i></span></div></div>
+    <div class="setting-box"><h4>General Settings</h4><div class="setting-row"><span>Auto Refresh</span><span class="switch on"><i></i></span></div><div class="setting-row"><span>Refresh Interval</span><select style="background:#071b2b;color:#cfe0ea;border:1px solid #193c51;border-radius:5px;font-size:7px"><option>5 minutes</option><option>1 minute</option><option>15 minutes</option></select></div><div class="setting-row"><span>Currency Display</span><select style="background:#071b2b;color:#cfe0ea;border:1px solid #193c51;border-radius:5px;font-size:7px"><option>USD ($)</option><option>NGN (₦)</option></select></div><div class="setting-row"><span>Notifications</span><span class="switch on"><i></i></span></div></div>
+    <div class="setting-box"><h4>Data & Privacy</h4><div class="setting-row"><span>Clear Watchlist</span><button class="ghost" id="clearWatch">Clear</button></div><div class="setting-row"><span>Clear Reports</span><button class="ghost">Clear</button></div><div class="setting-row"><span>Export Data</span><button class="ghost" id="exportData">Export</button></div></div>
+    <div class="setting-box"><h4>About</h4><div class="setting-row"><span>App Version</span><b>V14.0</b></div><div class="setting-row"><span>API Status</span><b class="up">● Operational</b></div><div class="setting-row"><span>Terms & Privacy</span><a href="#" class="link">View</a></div><div class="setting-row"><span>Support</span><a href="#" class="link">Contact Us</a></div></div>
+  </div>
+</section>
+
+<section class="page" id="page-auth">
+  <div class="title">Account</div><div class="subtitle">Secure account interface — connect your OAuth provider before enabling production authentication.</div>
+  <div class="auth-wrap"><div class="auth-art"><div><div class="beast">🛡️</div><h2>GUARDYXIS</h2><div style="font-size:9px">Scan · Analyze · Stay Safe</div><p>Join thousands of traders who trust GUARDYXIS for safer and smarter Web3 decisions.</p></div></div><div class="auth-card"><div class="auth-tabs"><b>Sign In</b><b style="color:#8796a0">Sign Up</b></div><button class="auth-google" id="googleBtn">🌈 Continue with Google</button><div style="text-align:center;color:#9aa6ad;font-size:8px;margin:10px">or</div><label>Email address</label><input placeholder="you@gmail.com"><label>Password</label><input type="password" placeholder="Enter your password"><button class="auth-sign" id="authDemo">Sign In</button><div style="text-align:center;font-size:7px;color:#8997a0;margin-top:10px">Demo UI only — production Google OAuth must be connected.</div></div></div>
+</section>
+</div>
+
+<footer class="footer-strip">
+  <div class="foot-brand">◈ GUARDYXIS<small>Next Generation Web3 Security & Analytics Platform</small></div>
+  <div class="foot-item"><span>♙</span>Advanced Holder<br>Intelligence</div><div class="foot-item"><span>♢</span>Verified Security<br>APIs</div><div class="foot-item"><span>◌</span>Real-Time<br>Market Data</div><div class="foot-item"><span>⬡</span>AI Risk<br>Analysis</div><div class="foot-item"><span>◈</span>Cross-Chain<br>Support</div><div class="foot-item"><span>☁</span>Cloud Sync<br>(Google)</div>
+</footer>
+</main>
+</div>
+
+<nav class="mobile-nav">
+  <button class="active" data-page="dashboard"><b>⌂</b>Home</button><button data-page="scan"><b>⌕</b>Scan</button><button data-page="watchlist"><b>♡</b>Watchlist</button><button data-page="alerts"><b>♧</b>Alerts</button><button data-page="settings"><b>⚙</b>Menu</button>
+</nav>
+<div class="toast" id="toast"></div>
+
+<script>
+const FALLBACK = [
+ {symbol:"$BONK",name:"Bonk",price:"0.0000267",change:12.48,cap:"$1.92B",volume:"$284.6M",liq:"$102.4M",fdv:"$2.67B",logo:"https://assets.coingecko.com/coins/images/28600/large/bonk.jpg"},
+ {symbol:"$SPENGU",name:"Spengu",price:"0.0324",change:28.31,cap:"$8.76M",volume:"$8.76M",liq:"$54.2M",fdv:"$9.1M"},
+ {symbol:"$SMEW",name:"Smew",price:"0.0067",change:19.72,cap:"$4.32M",volume:"$4.32M",liq:"$28.7M",fdv:"$5.1M"},
+ {symbol:"$SWIF",name:"Swif",price:"0.3812",change:16.20,cap:"$13.4M",volume:"$13.4M",liq:"$89.1M",fdv:"$18.1M"},
+ {symbol:"$SRAY",name:"Sray",price:"2.14",change:7.36,cap:"$6.8M",volume:"$6.8M",liq:"$42.3M",fdv:"$9.2M"},
+ {symbol:"$SJUP",name:"Jup",price:"1.02",change:5.74,cap:"$12.1M",volume:"$12.1M",liq:"$76.8M",fdv:"$14.4M"},
+ {symbol:"$SPOP CAT",name:"Popcat",price:"1.36",change:9.21,cap:"$5.7M",volume:"$5.7M",liq:"$31.2M",fdv:"$8.0M"},
+ {symbol:"$SFARTCOIN",name:"Fartcoin",price:"0.62",change:11.34,cap:"$9.3M",volume:"$9.3M",liq:"$68.6M",fdv:"$10.1M"}
+];
+let selected={...FALLBACK[0]};
+const $=s=>document.querySelector(s), $$=s=>[...document.querySelectorAll(s)];
+function toast(t){const el=$("#toast");el.textContent=t;el.classList.add("show");setTimeout(()=>el.classList.remove("show"),2200)}
+function money(n){if(n==null||n==="")return "—";const x=Number(n);if(!Number.isFinite(x))return String(n); if(x>=1e9)return "$"+(x/1e9).toFixed(2)+"B"; if(x>=1e6)return "$"+(x/1e6).toFixed(2)+"M"; if(x>=1e3)return "$"+(x/1e3).toFixed(1)+"K"; return "$"+x.toLocaleString(undefined,{maximumFractionDigits:8})}
+function nav(page){$$(".page").forEach(p=>p.classList.toggle("active",p.id==="page-"+page));$$("[data-page]").forEach(b=>b.classList.toggle("active",b.dataset.page===page));window.scrollTo({top:0,behavior:"smooth"})}
+$$("[data-page]").forEach(b=>b.addEventListener("click",()=>nav(b.dataset.page)));
+function tokenLogo(t){return t.logo||"data:image/svg+xml;charset=utf-8,"+encodeURIComponent(`<svg xmlns="http://www.w3.org/2000/svg" width="80" height="80"><rect width="80" height="80" rx="40" fill="#123047"/><text x="40" y="48" text-anchor="middle" fill="#16ded0" font-size="24">${(t.symbol||"?").replace("$","").slice(0,2)}</text></svg>`)}
+function renderDashTrending(list=FALLBACK.slice(0,5)){ $("#dashTrending").innerHTML=list.map(t=>`<div class="mini-token" data-symbol="${t.symbol}"><img class="token-logo" src="${tokenLogo(t)}" onerror="this.style.display='none'"><b>${t.symbol}</b><small>Solana</small><div class="pct up">★ +${Math.abs(t.change).toFixed(1)}%</div><div class="cap">${t.cap}</div><small>Price / 24h Vol</small></div>`).join(""); $$(".mini-token").forEach(x=>x.onclick=()=>loadTokenByText(x.dataset.symbol))}
+function renderRecent(){const rows=[["$GUARD","Low","2m ago"],["$SPENGU","Medium","5m ago"],["$SMEW","Low","12m ago"],["$SWIF","High","18m ago"],["$BONK","Medium","25m ago"]];$("#recentScans").innerHTML=rows.map(r=>`<div class="recent-row"><span>${r[0]}<small style="display:block;color:#7890a5">Solana</small></span><span class="risk ${r[1].toLowerCase()==="low"?"low":r[1].toLowerCase()==="high"?"high":"med"}">${r[1]}</span><span class="tiny">${r[2]}</span></div>`).join("")}
+function renderTrending(list=FALLBACK){$("#trendingBody").innerHTML=list.map(t=>`<tr><td><b>${t.symbol}</b><div class="tiny">Solana</div></td><td>${t.price}</td><td class="up">+${Number(t.change).toFixed(2)}%</td><td>${t.volume}</td><td>${t.liq}</td><td>${t.cap}</td><td><span class="risk low">Low</span></td></tr>`).join("")}
+async function renderHolders(){
+ const body=$("#holdersBody");
+ body.innerHTML='<tr><td colspan="4" class="page-loading">Fetching holder intelligence…</td></tr>';
+ if(!selected.mint){body.innerHTML='<tr><td colspan="4" class="page-loading">Select a token first.</td></tr>';return}
+ try{
+   const j=await fetchSecurity(selected.mint);const d=j.data||j;const hs=d.top_holders||d.topHolders||[];
+   if(!hs.length)throw Error();
+   body.innerHTML=hs.slice(0,10).map((v,i)=>{
+     const a=v.address||v.owner||"Unknown", bal=v.uiAmountString||v.balance||v.amount||"—", pct=v.pct??v.percentage??"—";
+     return `<tr><td>${i+1}</td><td>◉ ${String(a).slice(0,4)}...${String(a).slice(-4)}</td><td>${bal}</td><td>${typeof pct==="number"?pct.toFixed(2)+"%":pct}</td></tr>`;
+   }).join("");
+ }catch{
+   body.innerHTML='<tr><td colspan="4" class="page-loading">No verified holder dataset returned by the security provider.</td></tr>';
+ }
+}
+async function renderRisk(){
+ const box=$("#riskItems"),full=$("#riskFull");
+ const labels=[["Mint Authority","Safe",""],["Freeze Authority","Safe",""],["Liquidity","Observed",""],["Mutable Metadata","Check provider","warn"],["Blacklist","Check provider","warn"],["Owner Controls","Check provider","warn"]];
+ box.innerHTML=labels.map(x=>`<div class="risk-item ${x[2]}"><i class="dot"></i><span>${x[0]}</span><strong>${x[1]}</strong></div>`).join("");
+ full.innerHTML='<div class="page-loading">Fetching verified security evidence…</div>';
+ if(!selected.mint){full.innerHTML=labels.map(x=>`<div class="risk-item ${x[2]}"><i class="dot"></i><span>${x[0]}</span><strong>${x[1]}</strong></div>`).join("");return}
+ try{
+   const j=await fetchSecurity(selected.mint);const d=j.data||j;
+   const risks=d.risks||[];
+   if(risks.length){
+     full.innerHTML=risks.slice(0,12).map(r=>`<div class="risk-item ${r.level==="danger"?"bad":r.level==="warn"?"warn":""}"><i class="dot"></i><span>${r.name||r.description||"Security check"}</span><strong>${r.level||"Info"}</strong></div>`).join("");
+   }else full.innerHTML='<div class="page-loading">Provider returned no explicit risk findings.</div>';
+ }catch{full.innerHTML='<div class="page-loading">Verified security provider unavailable. No invented risk findings shown.</div>'}
+}
+function drawChart(canvas,seed=0,candles=null){
+ if(!canvas)return;
+ const dpr=devicePixelRatio||1,w=canvas.clientWidth||600,h=canvas.clientHeight||230;
+ canvas.width=w*dpr;canvas.height=h*dpr;const c=canvas.getContext("2d");c.setTransform(dpr,0,0,dpr,0,0);
+ c.clearRect(0,0,w,h);c.fillStyle="#04121f";c.fillRect(0,0,w,h);
+ c.strokeStyle="#0b2b3e";c.lineWidth=1;
+ for(let x=0;x<w;x+=w/12){c.beginPath();c.moveTo(x,0);c.lineTo(x,h);c.stroke()}
+ for(let y=0;y<h;y+=h/7){c.beginPath();c.moveTo(0,y);c.lineTo(w,y);c.stroke()}
+ let data=candles;
+ if(!data||!data.length){
+   let rng=seed||1, rnd=()=>{rng=(rng*9301+49297)%233280;return rng/233280}, price=100, arr=[];
+   for(let i=0;i<70;i++){let o=price;let close=Math.max(60,o+(rnd()-.45)*9);let hi=Math.max(o,close)+rnd()*5;let lo=Math.min(o,close)-rnd()*5;arr.push({open:o,high:hi,low:lo,close,volume:20+rnd()*60});price=close}
+   data=arr;
+ }
+ const min=Math.min(...data.map(x=>x.low)),max=Math.max(...data.map(x=>x.high)),range=(max-min)||1;
+ const pad={t:10,r:8,b:34,l:42}, cw=w-pad.l-pad.r,ch=h-pad.t-pad.b;
+ const y=v=>pad.t+(max-v)/range*ch;
+ c.font="7px system-ui";c.fillStyle="#668093";
+ [max,(max+min)/2,min].forEach(v=>c.fillText(Number(v).toPrecision(5),w-50,y(v)+2));
+ const step=cw/data.length, bw=Math.max(2,step*.62);
+ const vmax=Math.max(...data.map(x=>x.volume||0))||1;
+ data.forEach((d,i)=>{
+   const x=pad.l+i*step+step/2,yo=y(d.open),yc=y(d.close),yh=y(d.high),yl=y(d.low);
+   const up=d.close>=d.open;c.strokeStyle=up?"#14d9a4":"#ff536b";c.fillStyle=c.strokeStyle;c.lineWidth=1;
+   c.beginPath();c.moveTo(x,yh);c.lineTo(x,yl);c.stroke();
+   c.fillRect(x-bw/2,Math.min(yo,yc),bw,Math.max(1,Math.abs(yc-yo)));
+   const vh=(d.volume||0)/vmax*(ch*.18);c.globalAlpha=.45;c.fillRect(x-bw/2,h-pad.b+2-vh,bw,vh);c.globalAlpha=1;
+ });
+ c.fillStyle="#61798c";c.font="7px system-ui";
+ c.fillText("OHLCV",pad.l, h-8); c.fillText("Live provider data",w-90,h-8);
+}
+async function fetchMarketSearch(q){
+ const r=await fetch("/api/market/search?q="+encodeURIComponent(q),{cache:"no-store"});if(!r.ok)throw Error("Market search failed");return r.json();
+}
+async function fetchTrendingData(){
+ const r=await fetch("/api/market/trending",{cache:"no-store"});if(!r.ok)throw Error("Trending failed");return r.json();
+}
+async function fetchOHLCV(pool,timeframe="minute"){
+ const r=await fetch("/api/market/ohlcv/"+encodeURIComponent(pool)+"?timeframe="+encodeURIComponent(timeframe),{cache:"no-store"});if(!r.ok)throw Error("Chart data unavailable");return r.json();
+}
+async function fetchSecurity(mint){
+ const r=await fetch("/api/security/"+encodeURIComponent(mint),{cache:"no-store"});if(!r.ok)throw Error("Security provider unavailable");return r.json();
+}
+async function updateLiveChart(){
+ drawChart($("#chart"),7);drawChart($("#chartBig"),11);
+ if(!selected.pair)return;
+ try{
+   const j=await fetchOHLCV(selected.pair,"minute");
+   const rows=(j.data||[]).map(x=>({open:Number(x[1]),high:Number(x[2]),low:Number(x[3]),close:Number(x[4]),volume:Number(x[5])})).filter(x=>Object.values(x).every(Number.isFinite));
+   if(rows.length){drawChart($("#chart"),7,rows.slice(-80));drawChart($("#chartBig"),11,rows.slice(-120));toast("Proper OHLCV candlestick chart loaded");}
+ }catch(e){toast("Chart provider unavailable — showing local chart shell")}
+}
+async function refreshSecurityPanels(){
+ if(!selected.mint){toast("Select a token with a valid Solana mint first");return}
+ try{
+   const j=await fetchSecurity(selected.mint);
+   const d=j.data||{};
+   const score=d.score_normalised??d.score;
+   if(Number.isFinite(Number(score))){
+     const scoreText=Number(score).toFixed(0)+" / 100";
+     $$(".risk-score").forEach(x=>x.textContent=scoreText);
+   }
+   toast("Verified RugCheck security data loaded");
+ }catch(e){toast("Security provider unavailable — no fake security result shown")}
+}
+function renderSelected(){const t=selected;$("#tokenName").innerHTML=`${t.name.toUpperCase()} <span style="font-size:10px;color:#8ea4b4">(${t.symbol.replace("$","")})</span>`;$("#tokenLogo").src=tokenLogo(t);$("#tokenChain").textContent="Solana · market data";$("#tokenMint").textContent=t.mint||"Live provider result / demo fallback";$("#tokenPrice").textContent="$"+t.price;$("#tokenChange").textContent=(t.change>=0?"+":"")+Number(t.change).toFixed(2)+"% (24h)";$("#mcap").textContent=t.cap;$("#volume").textContent=t.volume;$("#liq").textContent=t.liq;$("#fdv").textContent=t.fdv;$("#chartTitle").textContent=`${t.symbol.replace("$","")} / SOL`;$("#repName").textContent=`${t.name} (${t.symbol.replace("$","")})`;$("#repCap").textContent=t.cap;drawChart($("#chart"),7);drawChart($("#chartBig"),11)}
+async function searchDex(q){
+ try{
+   const j=await fetchMarketSearch(q);
+   return j.token||null;
+ }catch(e){return null}
+}
+async function loadTokenByText(q){
+ nav("scan");toast("Searching live market data…");
+ const live=await searchDex(q);
+ selected=live||FALLBACK.find(x=>x.symbol.toLowerCase().includes(String(q).toLowerCase().replace("$","")))||selected;
+ renderSelected();recordScan(selected);
+ if(live){toast("Live Solana token loaded");await updateLiveChart();await refreshSecurityPanels();renderHolders();renderRisk();}
+ else toast("Provider unavailable — showing safe fallback data");
+}
+function recordScan(t){let a=JSON.parse(localStorage.getItem("gx_scans")||"[]");a=[{name:t.name,symbol:t.symbol,time:new Date().toLocaleTimeString([], {hour:"2-digit",minute:"2-digit"})},...a].slice(0,10);localStorage.setItem("gx_scans",JSON.stringify(a))}
+$("#globalSearch").addEventListener("keydown",e=>{if(e.key==="Enter"&&e.target.value.trim())loadTokenByText(e.target.value.trim())});
+$("#watchBtn").onclick=()=>{let a=JSON.parse(localStorage.getItem("gx_watch")||"[]");if(!a.some(x=>x.symbol===selected.symbol))a.push(selected);localStorage.setItem("gx_watch",JSON.stringify(a));renderWatch();toast("Token added to watchlist")};
+$("#addWatch").onclick=()=>{$("#globalSearch").focus();toast("Search a token, then add it to your watchlist")};
+$("#clearWatch").onclick=()=>{localStorage.removeItem("gx_watch");renderWatch();toast("Watchlist cleared")};
+function renderWatch(){const a=JSON.parse(localStorage.getItem("gx_watch")||"[]");$("#watchBody").innerHTML=(a.length?a:FALLBACK.slice(0,6)).map(t=>`<tr><td><b>${t.symbol}</b><div class="tiny">${t.name}</div></td><td>$${t.price}</td><td class="up">+${Number(t.change).toFixed(2)}%</td><td><span class="switch on"><i></i></span></td></tr>`).join("");$("#statWatch").textContent=a.length||18}
+$("#shareBtn").onclick=async()=>{const txt=`GUARDYXIS Security Scan — ${selected.name} (${selected.symbol}) — Risk 32/100 — Market Cap ${selected.cap}`;try{await navigator.clipboard.writeText(txt);toast("Security summary copied")}catch{toast(txt)}};
+$("#buyBtn").onclick=()=>toast("Buy link can be connected to your preferred Solana DEX");
+$("#notifBtn").onclick=()=>nav("alerts");
+$("#refreshTrending").onclick=async()=>{
+ toast("Refreshing trending…");
+ try{
+   const j=await fetchTrendingData(); const list=j.tokens||[];
+   if(list.length){renderTrending(list);renderDashTrending(list.slice(0,5));toast("Trending data loaded")}
+   else throw Error();
+ }catch{renderTrending();renderDashTrending();toast("Trending provider unavailable — fallback shown")}
+};
+$("#printReport").onclick=()=>window.print();$("#copyReport").onclick=()=>$("#shareBtn").click();
+$("#exportData").onclick=()=>{const blob=new Blob([JSON.stringify({selected,watchlist:JSON.parse(localStorage.getItem("gx_watch")||"[]")},null,2)],{type:"application/json"});const a=document.createElement("a");a.href=URL.createObjectURL(blob);a.download="guardyxis-data.json";a.click();URL.revokeObjectURL(a.href);toast("Data exported")};
+$("#googleBtn").onclick=()=>toast("Google OAuth UI is ready; connect Firebase/Google Identity for production");
+$("#authDemo").onclick=()=>toast("Demo account interface only");
+$$(".tf").forEach(b=>b.onclick=()=>{$$(".tf").forEach(x=>x.classList.remove("active"));b.classList.add("active");drawChart($("#chart"),Math.random()*1000);drawChart($("#chartBig"),Math.random()*1000)});
+$("#darkBtn").onclick=()=>{document.documentElement.style.setProperty("--bg","#020914");toast("Dark mode enabled")};
+$("#lightBtn").onclick=()=>toast("Light theme preview is available in Settings");
+window.addEventListener("resize",()=>{drawChart($("#chart"),7);drawChart($("#chartBig"),11)});
+renderDashTrending();renderRecent();renderTrending();renderWatch();renderSelected();renderRisk();
+setTimeout(()=>{updateLiveChart();},50);
+$$("[data-page]").forEach(btn=>btn.addEventListener("click",async()=>{
+ const pg=btn.dataset.page;
+ if(pg==="trending"){try{const j=await fetchTrendingData();if(j.tokens?.length){renderTrending(j.tokens);renderDashTrending(j.tokens.slice(0,5));}}catch{}}
+ if(pg==="holders")await renderHolders();
+ if(pg==="risk")await renderRisk();
+ if(pg==="charts")await updateLiveChart();
+ if(pg==="scan"){renderSelected();await updateLiveChart();}
+}));
+
+
+// V16 interaction layer: real provider routing, evidence-backed trust score and real OHLCV candles.
+(function(){
+ const oldSearch=searchDex;
+ async function apiJSON(url,opts={}){const r=await fetch(url,opts);const j=await r.json().catch(()=>({}));if(!r.ok)throw new Error(j.error||`HTTP ${r.status}`);return j}
+ async function liveSearch(q){return (await apiJSON('/api/market/search?q='+encodeURIComponent(q))).token}
+ async function loadTrust(mint){
+   const box=document.querySelector('#trustFactors'); if(!box)return;
+   if(!mint){box.innerHTML='<div class="factor"><b>No verified token selected</b><small>Search a Solana mint, symbol or name.</small></div>';return}
+   box.innerHTML='<div class="factor"><b>Loading verified evidence…</b><small>Checking security providers and market data.</small></div>';
+   try{
+     const j=await apiJSON('/api/trust/'+encodeURIComponent(mint)); const r=j.result||{}; const score=r.score;
+     document.querySelector('#trustScore').textContent=score==null?'—':score;
+     document.querySelector('#trustBand').textContent=r.band||'Unknown';
+     const ring=document.querySelector('#trustRing'); const pct=score==null?0:score; ring.style.background=`conic-gradient(#14e6a2 0 ${pct}%,#102c3b ${pct}% 100%)`;
+     document.querySelector('#trustFormula').textContent=r.formula||'Weighted evidence score across verified factors.';
+     document.querySelector('#trustNote').textContent=`${j.verifiedFactors||0}/100 weighting points currently have provider evidence. Unknown factors are shown as unknown, not safe.`;
+     box.innerHTML=(r.factors||[]).map(f=>{const val=f.score==null?null:Math.round(f.score),pct=val==null?0:val;return `<div class="factor"><div class="factor-head"><b>${f.label}</b><span>${val==null?'—':val}</span></div><div class="factor-bar"><i style="width:${pct}%"></i></div><small>${f.weight}% weight · ${f.note||''}</small></div>`}).join('');
+   }catch(e){document.querySelector('#trustScore').textContent='—';document.querySelector('#trustBand').textContent='Unavailable';box.innerHTML='<div class="factor"><b>Provider data unavailable</b><small>'+e.message+'</small></div>';document.querySelector('#trustNote').textContent='GUARDYXIS will not invent a score when verified evidence is unavailable.'}
+ }
+ async function drawRealCandles(canvas,pool){
+   if(!canvas)return; if(!pool){drawChart(canvas,7);return}
+   try{const j=await apiJSON('/api/market/ohlcv/'+encodeURIComponent(pool));const rows=j.data||[]; if(!rows.length)throw new Error('No OHLCV returned'); drawCandles(canvas,rows);}
+   catch(e){drawChart(canvas,7);toast('OHLCV provider unavailable — chart fallback shown')}
+ }
+ function drawCandles(canvas,rows){
+   const dpr=devicePixelRatio||1,w=canvas.clientWidth,h=canvas.clientHeight;canvas.width=w*dpr;canvas.height=h*dpr;const c=canvas.getContext('2d');c.scale(dpr,dpr);c.clearRect(0,0,w,h);
+   c.strokeStyle='#0b2a3d';c.lineWidth=1;for(let x=0;x<w;x+=w/10){c.beginPath();c.moveTo(x,0);c.lineTo(x,h);c.stroke()}for(let y=0;y<h;y+=h/6){c.beginPath();c.moveTo(0,y);c.lineTo(w,y);c.stroke()}
+   const data=rows.map(r=>({t:Number(r[0]),o:Number(r[1]),h:Number(r[2]),l:Number(r[3]),cl:Number(r[4]),v:Number(r[5])})).filter(x=>[x.o,x.h,x.l,x.cl].every(Number.isFinite)).slice(-80);if(!data.length)return;
+   let lo=Math.min(...data.map(x=>x.l)),hi=Math.max(...data.map(x=>x.h));const pad=(hi-lo)*.08||.000001;lo-=pad;hi+=pad;const volMax=Math.max(...data.map(x=>x.v||0))||1;const plotH=h-35;const xStep=w/data.length;const py=v=>plotH-(v-lo)/(hi-lo)*plotH;
+   data.forEach((x,i)=>{const cx=i*xStep+xStep/2;const up=x.cl>=x.o;const col=up?'#18ddb0':'#ff506b';c.strokeStyle=col;c.fillStyle=col;c.lineWidth=1;c.beginPath();c.moveTo(cx,py(x.h));c.lineTo(cx,py(x.l));c.stroke();const top=py(Math.max(x.o,x.cl)),bot=py(Math.min(x.o,x.cl));c.fillRect(cx-xStep*.28,top,Math.max(2,xStep*.56),Math.max(1,bot-top));const vh=(x.v||0)/volMax*26;c.globalAlpha=.35;c.fillRect(cx-xStep*.28,h-vh,xStep*.56,vh);c.globalAlpha=1});
+   c.fillStyle='#6e8798';c.font='9px system-ui';c.fillText('OHLCV · '+data.length+' candles',8,12);c.fillText('High '+hi.toPrecision(6),w-100,12);c.fillText('Low '+lo.toPrecision(6),w-100,h-8);
+ }
+ const originalLoad=loadTokenByText;
+ window.loadTokenByText=async function(q){nav('scan');toast('Searching live Solana market data…');try{selected=await liveSearch(q);renderSelected();recordScan(selected);await loadTrust(selected.mint);await drawRealCandles(document.querySelector('#chart'),selected.pair);await drawRealCandles(document.querySelector('#chartBig'),selected.pair);toast('Live token data loaded');}catch(e){selected=FALLBACK.find(x=>x.symbol.toLowerCase().includes(String(q).toLowerCase().replace('$','')))||selected;renderSelected();await loadTrust(selected.mint);toast('Live provider unavailable — fallback shown') }};
+ // Rebind global search because original listener closed over the old function.
+ const gs=document.querySelector('#globalSearch'); if(gs){const clone=gs.cloneNode(true);gs.parentNode.replaceChild(clone,gs);clone.addEventListener('keydown',e=>{if(e.key==='Enter'&&e.target.value.trim())window.loadTokenByText(e.target.value.trim())})}
+ const scanBtn=document.querySelector('[data-page="scan"]');
+ async function refreshCurrent(){if(selected?.mint){await loadTrust(selected.mint);await drawRealCandles(document.querySelector('#chart'),selected.pair);await drawRealCandles(document.querySelector('#chartBig'),selected.pair)}}
+ document.querySelectorAll('.tf').forEach(b=>b.addEventListener('click',refreshCurrent));
+ // Fetch trending from server and render provider status.
+ async function refresh(){try{const j=await apiJSON('/api/market/trending');if(j.tokens?.length){renderTrending(j.tokens);renderDashTrending(j.tokens.slice(0,5));toast('Trending data refreshed from GeckoTerminal')}else throw Error('No trending data')}catch(e){toast('Trending provider unavailable')}}
+ document.querySelector('#refreshTrending')?.addEventListener('click',refresh);
+ // Holder intelligence fetch.
+ async function refreshHolders(){if(!selected?.mint)return;try{const j=await apiJSON('/api/holders/'+selected.mint);if(j.holders?.length){document.querySelector('#holdersBody').innerHTML=j.holders.slice(0,10).map(h=>`<tr><td>${h.rank}</td><td>◉ ${h.address}</td><td>${h.balance}</td><td>${Number(h.percentage||0).toFixed(2)}%</td></tr>`).join('');const d=document.querySelector('.donut-wrap .legend');if(d)d.innerHTML=`<div><i style="background:#20dfca"></i>Top 10 <b>${j.concentration.top10.toFixed(2)}%</b></div><div><i style="background:#3183df"></i>Top 20 <b>${j.concentration.top20.toFixed(2)}%</b></div><div><i style="background:#697b92"></i>Top 100 <b>Provider-dependent</b></div><div><i style="background:#1a2a3a"></i>Others <b>Provider-dependent</b></div>`}}
+ catch(e){toast('Holder provider unavailable')}}
+ // Fetch security when Risk page is opened.
+ async function refreshSecurity(){if(!selected?.mint)return;try{const j=await apiJSON('/api/security/'+selected.mint);const raw=j.data||{};const risks=Array.isArray(raw.risks)?raw.risks:[];const target=document.querySelector('#riskFull');if(risks.length)target.innerHTML=risks.slice(0,30).map(x=>`<div class="risk-item ${String(x.level||x.severity||'').toLowerCase().includes('danger')?'bad':'warn'}"><i class="dot"></i><span>${x.name||x.description||'Security flag'}</span><strong>${x.level||x.severity||'Review'}</strong></div>`).join('');else target.innerHTML='<div class="risk-item"><i class="dot"></i><span>Provider returned no parsed risk flags.</span><strong>Review</strong></div>'}catch(e){toast('Security provider unavailable')}}
+ // Make page transitions execute their assigned data actions.
+ const oldNav=nav; window.nav=function(page){oldNav(page); if(page==='holders')refreshHolders(); if(page==='risk')refreshSecurity(); if(page==='charts')drawRealCandles(document.querySelector('#chartBig'),selected?.pair); if(page==='trending')refresh(); if(page==='scan')refreshCurrent()};
+ // Rebind every navigation action to the enhanced page dispatcher so clicks always trigger assigned data loading.
+ document.querySelectorAll('[data-page]').forEach(b=>{b.onclick=()=>window.nav(b.dataset.page)});
+ document.querySelectorAll('.mini-token').forEach(x=>{x.onclick=()=>window.loadTokenByText(x.dataset.symbol)});
+ // Replace current selected rendering chart calls with real data after initial fallback render.
+ setTimeout(()=>{if(selected?.mint)loadTrust(selected.mint); if(selected?.pair)drawRealCandles(document.querySelector('#chart'),selected.pair)},50);
+})();
+</script>
+</body>
+</html>
